@@ -24,19 +24,34 @@ const About = () => {
   };
 
   useEffect(() => {
-    let currentText = '';
-    let currentIndex = 0;
+    const section = document.getElementById('about');
+    if (!section) return;
 
-    const typeText = () => {
-      if (currentIndex < codeSnippet.length) {
-        currentText += codeSnippet[currentIndex];
-        setText(currentText);
-        currentIndex++;
-        setTimeout(typeText, 50);
-      }
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          let currentText = '';
+          let currentIndex = 0;
 
-    typeText();
+          const typeText = () => {
+            if (currentIndex < codeSnippet.length) {
+              currentText += codeSnippet[currentIndex];
+              setText(currentText);
+              currentIndex++;
+              setTimeout(typeText, 50);
+            }
+          };
+
+          typeText();
+          observer.disconnect(); // Stop observing once the effect starts
+        }
+      },
+      { threshold: 0.5 }, // Trigger when 50% of the section is visible
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect(); // Cleanup observer on unmount
   }, []);
 
   useEffect(() => {
