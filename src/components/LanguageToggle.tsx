@@ -13,7 +13,7 @@ const LanguageToggle = () => {
 
   return (
     <div className="ml-auto">
-      <div className="flex items-center space-x-2">
+      {/* <div className="flex items-center space-x-2">
         {languages.map((lang) => (
           <button
             key={lang.code}
@@ -33,7 +33,7 @@ const LanguageToggle = () => {
             </div>
           </button>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

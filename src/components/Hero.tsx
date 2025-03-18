@@ -29,13 +29,20 @@ const Hero = () => {
     <section
       id="home"
       className="min-h-screen flex items-center relative overflow-hidden"
-      style={{
-        backgroundImage: `url('src/images/Intro-image.gif')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
     >
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="src/images/Intro-image.webm" type="video/webm" />
+        <source src="src/images/Intro-image.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
       {/* Overlay for better text visibility */}
       <div className="absolute inset-0 bg-black/30 z-0"></div>
 

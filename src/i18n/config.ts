@@ -1,6 +1,6 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
 
 export const resources = {
   en: {
@@ -11,34 +11,34 @@ export const resources = {
         skills: 'Skills',
         projects: 'Projects',
         gallery: 'Gallery',
-        contact: 'Contact'
+        contact: 'Contact',
       },
       hero: {
         title: 'Crafting Digital',
         titleHighlight: 'Experiences',
-        viewWork: 'View My Work',
-        getInTouch: 'Get in Touch'
-      }
-    }
-  },
-  es: {
-    translation: {
-      nav: {
-        home: 'Inicio',
-        about: 'Sobre Mí',
-        skills: 'Habilidades',
-        projects: 'Proyectos',
-        gallery: 'Galería',
-        contact: 'Contacto'
+        viewWork: 'Skills',
+        getInTouch: 'Get in Touch',
       },
-      hero: {
-        title: 'Creando Experiencias',
-        titleHighlight: 'Digitales',
-        viewWork: 'Ver Proyectos',
-        getInTouch: 'Contactar'
-      }
-    }
-  }
+    },
+  },
+  // es: {
+  //   translation: {
+  //     nav: {
+  //       home: 'Inicio',
+  //       about: 'Sobre Mí',
+  //       skills: 'Habilidades',
+  //       projects: 'Proyectos',
+  //       gallery: 'Galería',
+  //       contact: 'Contacto',
+  //     },
+  //     hero: {
+  //       title: 'Creando Experiencias',
+  //       titleHighlight: 'Digitales',
+  //       viewWork: 'Ver Proyectos',
+  //       getInTouch: 'Contactar',
+  //     },
+  //   },
+  // },
 };
 
 i18n
@@ -48,12 +48,12 @@ i18n
     resources,
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
     },
     detection: {
       order: ['localStorage', 'navigator'],
-      caches: ['localStorage']
-    }
+      caches: ['localStorage'],
+    },
   });
 
 export default i18n;
