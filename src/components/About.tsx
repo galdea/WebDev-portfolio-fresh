@@ -6,21 +6,21 @@ import { useTranslation } from 'react-i18next';
 const About = () => {
   const [text, setText] = useState('');
   const [currentVideo, setCurrentVideo] = useState<
-    'src/images/About.webm' | 'src/images/About2.webm'
-  >('src/images/About.webm');
+    'public/images/About.webm' | 'public/images/About2.webm'
+  >('public/images/About.webm');
 
   const timeoutRef = useRef<number | null>(null);
   const { t } = useTranslation();
 
   const codeSnippet =
-    "const aboutMe = Hi, I'm Gabriel and I love building things.\nIt's not a coincidence that I'm a passionate carpenter and an innovative web developer.\n Coming to think about it, what I enjoy the most is materializing ideas into reality.\n When I create websites, I bring the same precision, creativity, and attention to detail that I apply in my workshop. Every project is an opportunity to construct something meaningful that stands the test of time.";
+    "const aboutMe = \n \n Hi, I'm Gabriel and I love building things.\n \n  It's not a coincidence that I'm a passionate carpenter and an innovative web developer.\n\n  Coming to think about it, what I enjoy the most is materializing ideas into reality.\n \n  When I create apps, I bring the same precision, creativity, and attention to detail that I apply in my workshop. Every project is an opportunity to construct something meaningful that stands the test of time.";
 
   const videoDurations: Record<
-    'src/images/About.webm' | 'src/images/About2.webm',
+    'public/images/About.webm' | 'public/images/About2.webm',
     number
   > = {
-    'src/images/About.webm': 14500,
-    'src/images/About2.webm': 14500,
+    'public/images/About.webm': 14500,
+    'public/images/About2.webm': 14500,
   };
 
   useEffect(() => {
@@ -62,9 +62,9 @@ const About = () => {
 
       setCurrentVideo((prevVideo) => {
         const nextVideo =
-          prevVideo === 'src/images/About.webm'
-            ? 'src/images/About2.webm'
-            : 'src/images/About.webm';
+          prevVideo === 'public/images/About.webm'
+            ? 'public/images/About2.webm'
+            : 'public/images/About.webm';
 
         timeoutRef.current = window.setTimeout(
           cycleVideos,
