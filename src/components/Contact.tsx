@@ -1,3 +1,4 @@
+import emailjs from 'emailjs-com';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle, Loader2, Send } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -5,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { TypeAnimation } from 'react-type-animation';
 
 function Contact() {
+  const emailjsAny = emailjs as any;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(0);
   const [formStatus, setFormStatus] = useState<
