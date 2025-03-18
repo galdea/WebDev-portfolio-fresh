@@ -290,9 +290,17 @@ function Contact() {
           </div>
         </div>
         <footer className="text-center pb-6 text-gray-400 text-m">
-          This website was developed by Gabriel Aldea, combining
-          state-of-the-art AI, his aesthetic sensibility and distinctive coding
-          expertise.
+          This website was developed by{' '}
+          <a
+            href="https://gabrielaldea.vercel.app/"
+            className="text-[#76aaad] hover:text-[#64ffda]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Gabriel Aldea
+          </a>
+          , combining state-of-the-art AI, his aesthetic sensibility and
+          distinctive coding expertise.
         </footer>
       </div>
     </section>
