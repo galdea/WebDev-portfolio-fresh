@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaGithub, FaInstagram } from 'react-icons/fa';
 import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
@@ -71,7 +72,23 @@ const Navbar = () => {
               >
                 {link.label}
               </a>
-            ))}
+            ))}{' '}
+            <a
+              href="https://www.instagram.com/gab_aldea"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-[#65fbda] transition-colors"
+            >
+              <FaInstagram className="w-6 h-6" />{' '}
+            </a>
+            <a
+              href="https://github.com/galdea"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-[#65fbda] transition-colors"
+            >
+              <FaGithub className="w-6 h-6" />
+            </a>
             <LanguageToggle />
           </div>
 

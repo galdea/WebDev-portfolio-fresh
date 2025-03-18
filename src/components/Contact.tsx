@@ -2,14 +2,18 @@ import emailjs from 'emailjs-com';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle, Loader2, Send } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { TypeAnimation } from 'react-type-animation';
 
 function Contact() {
-  const emailjsAny = emailjs as any;
+  // Define your EmailJS constants directly
+  // Replace these with your actual values
+  const SERVICE_ID = 'service_f2eyn5j';
+  const TEMPLATE_ID = 'template_1q9xdwo';
+  const USER_ID = '3YLlUQa6Bs9ksulX7';
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(0);
+  const [backgroundVideo, setBackgroundVideo] = useState(0);
   const [formStatus, setFormStatus] = useState<
     'idle' | 'submitting' | 'success' | 'error'
   >('idle');
@@ -20,7 +24,8 @@ function Contact() {
   });
   const formRef = useRef<HTMLFormElement>(null);
 
-  const videos = ['src/images/About.webm'];
+  const videos = ['src/images/finale.webm', 'src/images/meeting.webm'];
+  const videoBG = ['src/images/about.webm'];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -39,12 +44,11 @@ function Contact() {
 
     try {
       const result = await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_USER_ID,
+        SERVICE_ID,
+        TEMPLATE_ID,
+        formRef.current as HTMLFormElement,
+        USER_ID,
       );
-      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       setFormStatus('success');
       setFormData({
@@ -76,12 +80,15 @@ function Contact() {
       setCurrentVideo((prevVideo) => (prevVideo + 1) % videos.length);
     };
 
+    // Ensure the background video plays on loop
+    setBackgroundVideo(0);
+
     const videoCycleInterval = setInterval(cycleVideos, 5000); // Change video every 5 seconds
 
     return () => {
       clearInterval(videoCycleInterval);
     };
-  }, [videos.length]);
+  }, [videos.length, videoBG.length]);
 
   return (
     <section
@@ -93,7 +100,7 @@ function Contact() {
       <div className="absolute inset-0 z-0 ">
         <AnimatePresence mode="wait">
           <motion.video
-            key={currentVideo}
+            key={backgroundVideo}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
@@ -103,7 +110,7 @@ function Contact() {
             loop
             className="object-cover w-full h-full"
           >
-            <source src={videos[currentVideo]} type="video/mp4" />
+            <source src={videoBG[backgroundVideo]} type="video/mp4" />
           </motion.video>
         </AnimatePresence>
       </div>
