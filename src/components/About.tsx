@@ -116,7 +116,10 @@ const About = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <a href="#skills" className="btn-primary text-center">
+                <a
+                  href="#skills"
+                  className="btn-primary hover:scale-110 text-center "
+                >
                   <code>{t('hero.viewWork')}</code>
                 </a>
               </div>
