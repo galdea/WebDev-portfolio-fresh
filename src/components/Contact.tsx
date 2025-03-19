@@ -105,7 +105,7 @@ function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="min-h-screen bg-theme-dark-blue relative overflow-hidden">
+          <div className="min-h-screen bg-theme-dark-blue relative overflow-hidden netlify netlify-form">
             <div className="relative z-10 container mx-auto px-4 py-16 min-h-screen flex items-center">
               <div className="w-full max-w-4xl mx-auto">
                 <motion.div
