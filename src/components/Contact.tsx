@@ -24,8 +24,8 @@ function Contact() {
   });
   const formRef = useRef<HTMLFormElement>(null);
 
-  const videos = ['src/images/finale.webm', 'src/images/meeting.webm'];
-  const videoBG = ['src/images/about.webm'];
+  const videos = ['/images/finale.webm', '/images/meeting.webm'];
+  const videoBG = ['/images/about.webm'];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
