@@ -13,7 +13,7 @@ const Skills = () => {
   const [currentVideo, setCurrentVideo] = useState(1); // Tracks the current playing video index
   const { t } = useTranslation();
 
-  const codeSnippet = `const skills =\n \n  frameworks: ['ReactJS', 'NextJS', 'Flask'];\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  methodologies: ['Scrum', 'Kanban', 'Agile'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  testing: ['Jest'];\n  emerging: ['AI Integration'];\n  devOps: ['Git', 'CodeSpace', 'Netlify', 'Supabase']; \n  and: much, much more...;`;
+  const codeSnippet = `const skills =\n \n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  methodologies: ['Scrum', 'Kanban', 'Agile'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  testing: ['Jest'];\n  emerging: ['AI Integration'];\n  devOps: ['Git', 'CodeSpace', 'Netlify', 'Supabase']; \n  and: much, much more...;`;
 
   // Preload all videos
   useEffect(() => {
