@@ -25,7 +25,7 @@ function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const videos = ['/images/finale.webm', '/images/meeting.webm'];
-  const videoBG = ['/images/about.webm'];
+  const videoBG = ['/images/About.webm'];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -124,6 +124,11 @@ function Contact() {
                 <motion.video
                   key={currentVideo}
                   src={videos[currentVideo]}
+                  animate={{ opacity: 0.8 }}
+                  transition={{
+                    opacity: { duration: 2, ease: 'easeInOut' }, // Longer duration for smoother transition
+                    delay: 0.2, // Small delay before starting the fade-in
+                  }}
                   className="rounded-lg shadow-lg w-full h-auto"
                   autoPlay
                   loop
@@ -148,7 +153,7 @@ function Contact() {
                       sequence={[
                         "Let's Get In Touch",
                         6000,
-                        'Ready to Build Something Amazing?',
+                        'Ready to Build Something?',
                         6000,
                       ]}
                       wrapper="h2"
