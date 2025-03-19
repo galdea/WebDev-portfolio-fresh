@@ -26,7 +26,7 @@ const Skills = () => {
           video.style.display = 'none';
           video.preload = 'auto';
           video.muted = true;
-          video.src = `public/images/skills${i}.webm`;
+          video.src = `src/images/skills${i}.webm`;
           video.oncanplaythrough = () => {
             document.body.removeChild(video);
             resolve(); // resolve without arguments (implicitly undefined)
@@ -60,7 +60,7 @@ const Skills = () => {
     // Set new video source and play
     videoElements[
       nextVideoIndex
-    ]!.src = `public/images/skills${nextVideoNumber}.webm`;
+    ]!.src = `src/images/skills${nextVideoNumber}.webm`;
     videoElements[nextVideoIndex]!.load();
     videoElements[nextVideoIndex]!.play().catch((err) =>
       console.error('Video play error:', err),
@@ -77,7 +77,7 @@ const Skills = () => {
     if (!videoElements[0] || !videoElements[1]) return;
 
     // Initialize video sources
-    videoElements[0].src = `public/images/skills${currentVideo}.webm`;
+    videoElements[0].src = `src/images/skills${currentVideo}.webm`;
     videoElements[0].load();
 
     videoElements[0]
