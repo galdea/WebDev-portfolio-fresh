@@ -33,7 +33,7 @@ const Skills = () => {
 
     if (isMobile) {
       // Mobile: Play one looping video
-      video.src = '/images/skills12.webm';
+      video.src = '/images/skills6.webm';
       video.loop = true;
       video.load();
       video.play().catch((err) => console.error('Video play error:', err));

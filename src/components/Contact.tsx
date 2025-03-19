@@ -5,15 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 
 function Contact() {
-  // Define your EmailJS constants directly
-  // Replace these with your actual values
   const SERVICE_ID = 'service_f2eyn5j';
   const TEMPLATE_ID = 'template_1q9xdwo';
   const USER_ID = '3YLlUQa6Bs9ksulX7';
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState(0);
-  const [backgroundVideo, setBackgroundVideo] = useState(0);
   const [formStatus, setFormStatus] = useState<
     'idle' | 'submitting' | 'success' | 'error'
   >('idle');
@@ -24,17 +20,11 @@ function Contact() {
   });
   const formRef = useRef<HTMLFormElement>(null);
 
-  const videos = ['/images/finale.webm', '/images/meeting.webm'];
-  const videoBG = ['/images/About.webm'];
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,52 +33,23 @@ function Contact() {
     setFormStatus('submitting');
 
     try {
-      const result = await emailjs.sendForm(
+      await emailjs.sendForm(
         SERVICE_ID,
         TEMPLATE_ID,
         formRef.current as HTMLFormElement,
         USER_ID,
       );
-
       setFormStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        message: '',
-      });
-
-      // Reset form status after 5 seconds
-      setTimeout(() => {
-        setFormStatus('idle');
-      }, 5000);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setFormStatus('idle'), 5000);
     } catch (error) {
       console.error('Error submitting form:', error);
       setFormStatus('error');
-
-      // Reset form status after 5 seconds
-      setTimeout(() => {
-        setFormStatus('idle');
-      }, 5000);
+      setTimeout(() => setFormStatus('idle'), 5000);
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  // Video cycling logic with proper video index handling
-  useEffect(() => {
-    const cycleVideos = () => {
-      setCurrentVideo((prevVideo) => (prevVideo + 1) % videos.length);
-    };
-
-    // Ensure the background video plays on loop
-    setBackgroundVideo(0);
-
-    const videoCycleInterval = setInterval(cycleVideos, 5000); // Change video every 5 seconds
-
-    return () => {
-      clearInterval(videoCycleInterval);
-    };
-  }, [videos.length, videoBG.length]);
 
   return (
     <section
@@ -96,11 +57,11 @@ function Contact() {
       className="min-h-screen flex items-center relative overflow-hidden"
     >
       <div className="absolute inset-0 bg-black/30 z-0"></div>
+
       {/* Video Background */}
-      <div className="absolute inset-0 z-0 ">
+      <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           <motion.video
-            key={backgroundVideo}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
@@ -110,7 +71,7 @@ function Contact() {
             loop
             className="object-cover w-full h-full"
           >
-            <source src={videoBG[backgroundVideo]} type="video/mp4" />
+            <source src="/images/About.webm" type="video/mp4" />
           </motion.video>
         </AnimatePresence>
       </div>
@@ -121,25 +82,30 @@ function Contact() {
           <div className="w-full lg:w-3/5 flex justify-center items-center">
             <div className="w-full max-w-full lg:max-w-none px-4 lg:px-8">
               <div className="relative">
+                {/* Video for large screens */}
                 <motion.video
-                  key={currentVideo}
-                  src={videos[currentVideo]}
-                  animate={{ opacity: 0.8 }}
-                  transition={{
-                    opacity: { duration: 2, ease: 'easeInOut' }, // Longer duration for smoother transition
-                    delay: 0.2, // Small delay before starting the fade-in
-                  }}
-                  className="rounded-lg shadow-lg w-full h-auto"
+                  className="hidden lg:block rounded-lg shadow-lg w-full h-auto"
+                  autoPlay
+                  muted
+                >
+                  <source src="/images/meeting.webm" type="video/webm" />
+                </motion.video>
+
+                {/* Video for small screens */}
+                <motion.video
+                  className="block lg:hidden rounded-lg shadow-lg w-full pt-6 h-auto"
                   autoPlay
                   loop
                   muted
-                />
+                >
+                  <source src="/images/finale.webm" type="video/webm" />
+                </motion.video>
               </div>
             </div>
           </div>
 
+          {/* Contact Form */}
           <div className="min-h-screen bg-theme-dark-blue relative overflow-hidden">
-            {/* Content */}
             <div className="relative z-10 container mx-auto px-4 py-16 min-h-screen flex items-center">
               <div className="w-full max-w-4xl mx-auto">
                 <motion.div

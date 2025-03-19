@@ -120,7 +120,7 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="min-h-screen bg-[#08111e] text-[#e6f1ff] py-8 sm:py-20 px-4"
+      className="min-h-screen bg-[#08111e] text-[#e6f1ff] py-14 sm:py-20 px-4"
     >
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-clip-text text-[#64ffda]">
@@ -128,8 +128,8 @@ const Projects = () => {
         </h1>
         <div className=" backdrop-blur-sm p-6 text-center rounded-lg mb-8">
           <code>
-            Explore my last three projects, each site showcasing unique
-            challenges and creative solutions.
+            Explore some of my projects, each site showcasing unique challenges
+            and creative solutions.
           </code>
         </div>
 
