@@ -19,6 +19,8 @@ const Projects = () => {
         'E-Commerce',
         'Video editing',
         'Web Design',
+        'Creative content',
+        'Blog management',
       ],
     },
     {
@@ -165,7 +167,7 @@ const Projects = () => {
                   >
                     <iframe
                       className="w-full h-full rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none"
-                      src={`https://www.youtube.com/embed/${slides[currentIndex].videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0`}
+                      src={`https://www.youtube.com/embed/${slides[currentIndex].videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${slides[currentIndex].videoId}`}
                       title="YouTube video player"
                       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
