@@ -2,8 +2,18 @@ import { motion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
+// Assuming 'slides' is an array of objects that include 'websiteUrl'
+const slides = [
+  { websiteUrl: 'https://example1.com' },
+  { websiteUrl: 'https://example2.com' },
+  // Add more slides here
+];
+
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+
+  // Example: assuming you want to keep track of the current slide's index
+  const currentIndex = 0; // You need logic to set this index based on the current slide
 
   return (
     <motion.button
