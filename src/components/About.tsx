@@ -89,11 +89,11 @@ const About = () => {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center relative overflow-hidden sm:my-4"
+      className="min-h-screen flex items-center relative overflow-hidden sm:my-4 pb-12"
     >
       <div className="absolute inset-0 bg-black/30 z-0"></div>
 
-      <div className="container mx-auto px-4 z-10">
+      <div className="container mx-auto px-4 z-10 pt-12 pb-8">
         <div className="flex flex-col lg:flex-row items-center justify-center">
           <div className="w-full lg:w-1/3 flex justify-center items-center mb-8 lg:mb-0">
             <motion.div
@@ -123,8 +123,8 @@ const About = () => {
             </motion.div>
           </div>
 
-          {/* Updated to use <video> instead of <img> */}
-          <div className="w-full lg:w-3/5 flex justify-center items-center pb-4 lg:px-4">
+          {/* Current video */}
+          <div className="w-full lg:w-3/5 flex justify-center items-center lg:px-4">
             <div className="w-full max-w-full lg:max-w-none px-4 lg:px-8">
               <div className="relative">
                 <motion.video
