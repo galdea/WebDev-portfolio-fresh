@@ -272,7 +272,7 @@ function Contact() {
           </a>
           , combining state-of-the-art{' '}
           <a
-            href="https://app.runwayml.com"
+            href="https://runwayml.com/"
             className="text-[#76aaad] hover:text-[#64ffda]"
             target="_blank"
             rel="noopener noreferrer"
