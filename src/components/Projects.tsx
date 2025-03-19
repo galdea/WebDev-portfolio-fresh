@@ -28,7 +28,7 @@ const Projects = () => {
       title: 'European Hobbes Society',
       description:
         'Website created for the European Hobbes Society, promoting scholarly research and discussion on Thomas Hobbes, fostering a community of academics worldwide. Libraries are managed through a custom database and new publications are shown in landing page carousels.',
-      websiteUrl: 'https://europeanhobbesociety.org',
+      websiteUrl: 'https://europeanhobbessociety.org/',
       tags: [
         'Squarespace',
         'CSS',
