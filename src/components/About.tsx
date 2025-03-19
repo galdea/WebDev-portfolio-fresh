@@ -62,7 +62,7 @@ const About = () => {
 
       setCurrentVideo((prevVideo) => {
         const nextVideo =
-          prevVideo === 'public/images/About.webm'
+          prevVideo === 'src/images/About.webm'
             ? 'src/images/About2.webm'
             : 'src/images/About.webm';
 

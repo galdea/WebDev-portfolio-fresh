@@ -1,7 +1,7 @@
 import emailjs from 'emailjs-com';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle, Loader2, Send } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 
 function Contact() {
