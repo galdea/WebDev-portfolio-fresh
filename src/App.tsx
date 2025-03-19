@@ -21,6 +21,13 @@ function App() {
   return (
     <div className="relative">
       {/* Custom Cursor Effect */}
+      {/* <div
+        className="cursor-glow"
+        style={{
+          left: `${cursorPosition.x}px`,
+          top: `${cursorPosition.y}px`,
+        }}
+      /> */}
 
       <Navbar />
       <Hero />

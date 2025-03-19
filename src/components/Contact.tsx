@@ -270,8 +270,16 @@ function Contact() {
           >
             Gabriel Aldea
           </a>
-          , combining state-of-the-art AI, his aesthetic sensibility and
-          distinctive coding expertise.
+          , combining state-of-the-art{' '}
+          <a
+            href="https://app.runwayml.com"
+            className="text-[#76aaad] hover:text-[#64ffda]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            generative AI
+          </a>
+          , his aesthetic sensibility and distinctive coding expertise.
         </footer>
       </div>
     </section>
