@@ -200,7 +200,7 @@ function Contact() {
                             required
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full bg-theme-navy/50 border border-theme-teal/30 rounded-lg px-4 py-3 text-theme-light-blue placeholder-theme-gray/50 focus:outline-none focus:border-theme-teal transition-colors"
+                            className="w-full bg-theme-navy/50 border border-theme-teal/30 rounded-lg px-4 py-3 text-theme-light-blue placeholder-theme-gray/50 focus:outline-none focus:border-theme-teal text-[#0a1d3a] transition-colors"
                             placeholder="John Doe"
                           />
                         </motion.div>
@@ -222,7 +222,7 @@ function Contact() {
                             required
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full bg-theme-navy/50 border border-theme-teal/30 rounded-lg px-4 py-3 text-theme-light-blue placeholder-theme-gray/50 focus:outline-none focus:border-theme-teal transition-colors"
+                            className="w-full bg-theme-navy/50 border border-theme-teal/30 rounded-lg px-4 py-3 text-theme-light-blue placeholder-theme-gray/50 focus:outline-none text-[#0a1d3a] focus:border-theme-teal transition-colors"
                             placeholder="john@example.com"
                           />
                         </motion.div>
@@ -245,7 +245,7 @@ function Contact() {
                           value={formData.message}
                           onChange={handleChange}
                           rows={4}
-                          className="w-full bg-theme-navy/50 border border-theme-teal/30 rounded-lg px-4 py-3 text-theme-light-blue placeholder-theme-gray/50 focus:outline-none focus:border-theme-teal transition-colors"
+                          className="w-full bg-theme-navy/50 border border-theme-teal/30 rounded-lg px-4 py-3 text-theme-light-blue placeholder-theme-gray/50 text-[#0a1d3a] focus:outline-none focus:border-theme-teal transition-colors"
                           placeholder="Tell me about your project..."
                         />
                       </motion.div>
