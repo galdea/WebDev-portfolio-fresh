@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 10 25 47; /* #0a192f */
+    --color-secondary: 100 255 218; /* #64ffda */
+    --color-accent: 230 164 180; /* #e6a4b4 */
+    --color-bg-dark: 8 15 26; /* #080f1a */
+    --color-bg-light: 16 32 57; /* #102039 */
+    --color-text: 230 241 255; /* #e6f1ff */
+    --color-text-secondary: 230 241 255; /* #8892b0 */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gradient-to-b from-bg-dark to-bg-light min-h-screen text-text font-inter;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-space-grotesk;
+  }
+
+  code {
+    @apply font-fira;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply relative px-4 py-2 text-text-secondary hover:text-secondary transition-colors duration-300;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-secondary transition-all duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 bg-transparent border-2 border-secondary text-secondary rounded-lg
+           hover:bg-secondary/10 transition-all duration-300 font-medium;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl font-bold text-text mb-8 flex items-center gap-4;
+  }
+
+  .section-heading::after {
+    content: '';
+    @apply h-px bg-text/20 flex-grow;
+  }
+}
+
+.cursor-glow {
+  @apply fixed pointer-events-none w-8 h-8 bg-secondary/20 rounded-full
+         transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 z-50;
+}
