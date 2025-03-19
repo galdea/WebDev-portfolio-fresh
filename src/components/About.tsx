@@ -13,7 +13,7 @@ const About = () => {
   const { t } = useTranslation();
 
   const codeSnippet =
-    "const aboutMe = \n \n Hi, I'm Gabriel and I love building things.\n \n  It's not a coincidence that I'm a passionate carpenter and an innovative web developer.\n\n  Coming to think about it, what I enjoy the most is materializing ideas into reality.\n \n  When I create apps, I bring the same precision, creativity, and attention to detail that I apply in my workshop. Every project is an opportunity to construct something meaningful that stands the test of time.";
+    "const aboutMe = \n \n Hi, I'm Gabriel and I love building things.\n \n  It's not a coincidence that I am both a passionate carpenter and an innovative web developer.\n\n  Coming to think about it, what I enjoy the most is materializing ideas into reality.\n \n  When I create apps, I bring the same precision, creativity, and attention to detail that I apply in my workshop. Every project is an opportunity to construct something meaningful that stands the test of time.";
 
   const videoDurations: Record<
     '/images/About.webm' | '/images/About2.webm',
