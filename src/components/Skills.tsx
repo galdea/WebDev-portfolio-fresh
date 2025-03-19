@@ -97,7 +97,7 @@ const Skills = () => {
       />
 
       <div className="relative z-20 container mx-auto px-4">
-        <pre className="text-secondary font-mono text-lg bg-black/50 p-4 rounded whitespace-pre-line break-words">
+        <pre className="text-[#64ffda] font-mono text-lg bg-black/50 p-4 rounded whitespace-pre-line break-words">
           {text}
         </pre>
       </div>

@@ -89,7 +89,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center relative overflow-hidden sm:my-4 pb-12"
+      className="min-h-screen flex items-center relative overflow-hidden  pb-12"
     >
       <div className="absolute inset-0 bg-black/30 z-0"></div>
 

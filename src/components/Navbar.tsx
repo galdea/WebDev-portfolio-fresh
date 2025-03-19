@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaGithub, FaInstagram } from 'react-icons/fa';
+import { ThemeToggle } from '../components/ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
@@ -67,7 +68,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="nav-link"
+                className="nav-link text-[#f1f5f9]"
                 onClick={(e) => handleNavClick(e, link.href)}
               >
                 {link.label}
@@ -89,6 +90,7 @@ const Navbar = () => {
             >
               <FaGithub className="w-6 h-6" />
             </a>
+            <ThemeToggle />
             <LanguageToggle />
           </div>
 
@@ -101,6 +103,7 @@ const Navbar = () => {
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
+            <ThemeToggle />
           </div>
         </div>
 

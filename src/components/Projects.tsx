@@ -126,10 +126,10 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="min-h-screen bg-[#08111e] text-[#e6f1ff] py-14 sm:py-20 px-4"
+      className="bg-black/30 min-h-screen py-14 sm:py-20 px-4"
     >
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-clip-text text-[#64ffda]">
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-clip-text">
           Projects
         </h1>
         <div className=" backdrop-blur-sm p-6 text-center rounded-lg mb-8">
@@ -139,7 +139,7 @@ const Projects = () => {
           </code>
         </div>
 
-        <div className="relative h-[600px] w-full overflow-hidden rounded-2xl bg-[#121f34] shadow-2xl">
+        <div className="relative h-[600px] w-full overflow-hidden rounded-2xl shadow-2xl">
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={currentIndex}
@@ -186,7 +186,7 @@ const Projects = () => {
                     <code className="text-2xl text-[#64ffda]">
                       {slides[currentIndex].title}
                     </code>
-                    <p className="mt-10 mb-10">
+                    <p className="mt-10 mb-10 text-[#f1f5f9]">
                       {slides[currentIndex].description}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-6">
