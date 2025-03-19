@@ -23,6 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 .next/
-
-!public/images/
-!public/images/*.webm
