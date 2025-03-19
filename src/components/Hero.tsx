@@ -4,42 +4,68 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
-  const [text, setText] = useState('');
   const { t } = useTranslation();
-  const codeSnippet =
-    "// Hi, I'm Gabriel, I love building things.\n// It's not a coincidence I'm a passionate carpenter or an innovative web developer.\n// What I enjoy the most is having great ideas materialize into reality.";
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Check if device is mobile on component mount and window resize
   useEffect(() => {
-    let currentText = '';
-    let currentIndex = 0;
-
-    const typeText = () => {
-      if (currentIndex < codeSnippet.length) {
-        currentText += codeSnippet[currentIndex];
-        setText(currentText);
-        currentIndex++;
-        setTimeout(typeText, 50);
-      }
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth < 768);
     };
 
-    typeText();
+    // Check on mount
+    checkDevice();
+
+    // Check on resize
+    window.addEventListener('resize', checkDevice);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener('resize', checkDevice);
   }, []);
+
+  // Handle video loading
+  const handleVideoLoad = () => {
+    setIsLoading(false);
+  };
 
   return (
     <section
       id="home"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
+      {/* Loading indicator */}
+      {isLoading && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/80">
+          <div className="w-12 h-12 rounded-full border-4 border-secondary border-t-transparent animate-spin"></div>
+        </div>
+      )}
+
       {/* Video Background */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+          isLoading ? 'opacity-0' : 'opacity-100'
+        }`}
+        onLoadedData={handleVideoLoad}
       >
-        <source src="/images/Intro-image.webm" type="video/webm" />
-        <source src="public/images/Intro-image.mp4" type="video/mp4" />
+        <source
+          src={
+            isMobile
+              ? '/images/Intro-image-sm.webm'
+              : '/images/Intro-image.webm'
+          }
+          type="video/webm"
+        />
+        <source
+          src={
+            isMobile ? '/images/Intro-image-sm.mp4' : '/images/Intro-image.mp4'
+          }
+          type="video/mp4"
+        />
         Your browser does not support the video tag.
       </video>
 
@@ -56,7 +82,7 @@ const Hero = () => {
           repeat: Infinity,
           repeatType: 'reverse',
         }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer z-10"
       >
         <ChevronDown className="text-secondary w-8 h-8" />
       </motion.div>
