@@ -10,7 +10,7 @@ const Projects = () => {
       videoId: 'IMRO7PH6SGc',
       title: 'Austral Escapes',
       description:
-        'Website created for a Patagonian tour agency, targeting American and Canadian travelers, offering curated tour packages.',
+        'Website created for a Patagonian tour agency, targeting American and Canadian travelers, offering curated tour packages. Blog section features travel tips and local insights. Tour packages are managed through a custom e-commerce solution.',
       websiteUrl: 'https://australescapes.com',
       tags: [
         'Squarespace',
@@ -27,15 +27,21 @@ const Projects = () => {
       videoId: 'umQhd0LE2Y0',
       title: 'European Hobbes Society',
       description:
-        'Website created for the European Hobbes Society, promoting scholarly research and discussion on Thomas Hobbes, fostering a community of academics worldwide.',
+        'Website created for the European Hobbes Society, promoting scholarly research and discussion on Thomas Hobbes, fostering a community of academics worldwide. Libraries are managed through a custom database and new publications are shown in landing page carousels.',
       websiteUrl: 'https://europeanhobbesociety.org',
-      tags: ['Squarespace', 'CSS', 'Video library', 'Database', 'Web Design'],
+      tags: [
+        'Squarespace',
+        'CSS',
+        'Video library',
+        'Document Database',
+        'Web Design',
+      ],
     },
     {
       videoId: 'GZtDlMj8W9E',
       title: 'Antonio Elizalde',
       description:
-        'Website created for scholar Antonio Elizalde, featuring APIs to access private drives containing publications and extensive malacology data, facilitating research and collaboration in academic studies.',
+        'Website created for scholar Antonio Elizalde, featuring APIs to access private Google Drive folders, where material containing publications, image libraries, and extensive malacology data is instantly updated to the website, facilitating research and collaboration between academics worldwide.',
       websiteUrl: 'https://antonioelizalde.cl',
       tags: [
         'Javascript',
@@ -160,7 +166,7 @@ const Projects = () => {
               className="absolute w-full h-full"
             >
               <div className="h-full flex flex-col md:flex-row">
-                <div className="w-full md:w-3/5 h-[300px] md:h-full relative">
+                <div className="w-full md:w-3/5 md:h-full relative">
                   <div
                     className="absolute inset-0 z-10"
                     style={{ backgroundColor: '#639185', opacity: 0.8 }}
@@ -177,10 +183,12 @@ const Projects = () => {
 
                 <div className="w-full md:w-2/5 p-8 flex flex-col justify-between bg-[#121f34]">
                   <div>
-                    <h2 className="text-3xl font-bold mb-10 text-[#64ffda]">
+                    <code className="text-2xl text-[#64ffda]">
                       {slides[currentIndex].title}
-                    </h2>
-                    <p className="mb-6">{slides[currentIndex].description}</p>
+                    </code>
+                    <p className="mt-10 mb-10">
+                      {slides[currentIndex].description}
+                    </p>
                     <div className="flex flex-wrap gap-2 mb-6">
                       {slides[currentIndex].tags.map((tag, index) => (
                         <span
