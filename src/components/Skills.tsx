@@ -5,88 +5,84 @@ import { useTranslation } from 'react-i18next';
 
 const Skills = () => {
   const [text, setText] = useState('');
-  const videoRefs = {
-    current: useRef<HTMLVideoElement | null>(null), // Explicit type for videoRefs
-    next: useRef<HTMLVideoElement | null>(null), // Explicit type for videoRefs
-  };
-  const [activeIndex, setActiveIndex] = useState(0); // Tracks which video is active
-  const [currentVideo, setCurrentVideo] = useState(1); // Tracks the current playing video index
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const { t } = useTranslation();
+  const [isMobile, setIsMobile] = useState(false);
 
   const codeSnippet = `const skills =\n \n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  methodologies: ['Scrum', 'Kanban', 'Agile'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  testing: ['Jest'];\n  emerging: ['AI Integration'];\n  devOps: ['Git', 'CodeSpace', 'Netlify', 'Supabase']; \n  and: much, much more...;`;
 
-  // Preload all videos
+  // Check if device is mobile
   useEffect(() => {
-    const preloadVideos = async () => {
-      const videoPromises = [];
-      for (let i = 1; i <= 14; i++) {
-        const promise = new Promise<void>((resolve) => {
-          // Specify void here
-          const video = document.createElement('video');
-          video.style.display = 'none';
-          video.preload = 'auto';
-          video.muted = true;
-          video.src = `/images/skills${i}.webm`;
-          video.oncanplaythrough = () => {
-            document.body.removeChild(video);
-            resolve(); // resolve without arguments (implicitly undefined)
-          };
-          document.body.appendChild(video);
-        });
-        videoPromises.push(promise);
-      }
-      await Promise.all(videoPromises);
-      console.log('All videos preloaded');
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
     };
 
-    preloadVideos();
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Function to handle video transitions
-  const playNextVideo = (endedIndex: number): void => {
-    const nextVideoIndex = endedIndex === 0 ? 1 : 0;
-    const nextVideoNumber = (currentVideo % 14) + 1;
-
-    // Ensure videoRefs.current and videoRefs.next are not null
-    const videoElements = [videoRefs.current.current, videoRefs.next.current];
-
-    // Check if video elements are valid (not null)
-    if (!videoElements[0] || !videoElements[1]) return;
-
-    // Fade out the current video before loading the next
-    videoElements[endedIndex]?.classList.add('opacity-0');
-    videoElements[nextVideoIndex]?.classList.remove('opacity-0');
-
-    // Set new video source and play
-    videoElements[
-      nextVideoIndex
-    ]!.src = `/images/skills${nextVideoNumber}.webm`;
-    videoElements[nextVideoIndex]!.load();
-    videoElements[nextVideoIndex]!.play().catch((err) =>
-      console.error('Video play error:', err),
-    );
-
-    setActiveIndex(nextVideoIndex);
-    setCurrentVideo(nextVideoNumber);
-  };
-
-  // Initialize first video and attach event listeners
+  // Handle video setup
   useEffect(() => {
-    const videoElements = [videoRefs.current.current, videoRefs.next.current];
+    if (!videoRef.current) return;
 
-    if (!videoElements[0] || !videoElements[1]) return;
+    const video = videoRef.current;
+    video.muted = true;
+    video.playsInline = true;
 
-    // Initialize video sources
-    videoElements[0].src = `/images/skills${currentVideo}.webm`;
-    videoElements[0].load();
+    if (isMobile) {
+      // Mobile: Use skills12.webm in a loop
+      video.src = '/images/skills12.webm';
+      video.loop = true;
 
-    videoElements[0]
-      .play()
-      .catch((err) => console.error('Video play error:', err));
+      video.load();
+      video.play().catch((err) => console.error('Video play error:', err));
+    } else {
+      // Desktop: Sequence through all videos
+      const preloadVideos = async () => {
+        const videoPromises = Array.from({ length: 14 }, (_, i) => {
+          return new Promise<void>((resolve) => {
+            const tempVideo = document.createElement('video');
+            tempVideo.style.display = 'none';
+            tempVideo.preload = 'auto';
+            tempVideo.muted = true;
+            tempVideo.src = `/images/skills${i + 1}.webm`;
+            tempVideo.oncanplaythrough = () => {
+              document.body.removeChild(tempVideo);
+              resolve();
+            };
+            document.body.appendChild(tempVideo);
+          });
+        });
 
-    videoElements[0].onended = () => playNextVideo(0);
-    videoElements[1].onended = () => playNextVideo(1);
-  }, [currentVideo]);
+        await Promise.all(videoPromises);
+        console.log('All videos preloaded');
+
+        // Start with first video
+        video.src = '/images/skills1.webm';
+        video.loop = false;
+        video.load();
+        video.play().catch((err) => console.error('Video play error:', err));
+      };
+
+      preloadVideos();
+
+      let currentVideoIndex = 1;
+      video.onended = () => {
+        currentVideoIndex = (currentVideoIndex % 14) + 1;
+        video.src = `/images/skills${currentVideoIndex}.webm`;
+        video.load();
+        video.play().catch((err) => console.error('Video play error:', err));
+      };
+    }
+
+    return () => {
+      video.onended = null;
+      video.pause();
+      video.src = '';
+    };
+  }, [isMobile]);
 
   // Typewriter effect
   useEffect(() => {
@@ -109,15 +105,14 @@ const Skills = () => {
           };
 
           typeText();
-          observer.disconnect(); // Stop observing once the effect starts
+          observer.disconnect();
         }
       },
-      { threshold: 0.5 }, // Trigger when 50% of the section is visible
+      { threshold: 0.5 },
     );
 
     observer.observe(section);
-
-    return () => observer.disconnect(); // Cleanup observer on unmount
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -125,30 +120,23 @@ const Skills = () => {
       id="skills"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
-      {/* Two video elements for crossfade effect */}
       <video
-        ref={videoRefs.current}
+        ref={videoRef}
         muted
         playsInline
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 z-0 opacity-100`}
-      />
-      <video
-        ref={videoRefs.next}
-        muted
-        playsInline
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 z-0 opacity-0`}
+        className="absolute inset-0 w-full h-full object-cover z-0"
       />
 
-      {/* Content */}
       <div className="relative z-20 container mx-auto px-4">
         <pre className="text-secondary font-mono text-lg bg-black/50 p-4 rounded whitespace-pre-line break-words">
           {text}
         </pre>
       </div>
 
-      {/* Scroll Indicator */}
       <motion.div
-        transition={{ repeat: Infinity, repeatType: 'reverse' }}
+        initial={{ y: -10 }}
+        animate={{ y: 10 }}
+        transition={{ repeat: Infinity, repeatType: 'reverse', duration: 1.5 }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer z-20"
       >
         <ChevronDown className="text-secondary w-8 h-8" />
