@@ -105,7 +105,7 @@ function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="min-h-screen bg-theme-dark-blue relative overflow-hidden netlify netlify-form">
+          <div className="min-h-screen bg-theme-dark-blue relative overflow-hidden">
             <div className="relative z-10 container mx-auto px-4 py-16 min-h-screen flex items-center">
               <div className="w-full max-w-4xl mx-auto">
                 <motion.div
@@ -151,6 +151,8 @@ function Contact() {
                     <form
                       ref={formRef}
                       onSubmit={handleSubmit}
+                      name="contact"
+                      data-netlify="true"
                       className="space-y-6"
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
