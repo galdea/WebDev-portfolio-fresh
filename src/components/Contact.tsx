@@ -260,11 +260,11 @@ function Contact() {
             </div>
           </div>
         </div>
-        <footer className="text-center pb-6 text-gray-400 text-m">
+        <footer className="text-center pb-6 text-gray-600 text-m">
           This website was developed by{' '}
           <a
             href="https://gabrielaldea.netlify.app/"
-            className="text-[#76aaad] hover:text-[#64ffda]"
+            className="text-[#4f7375] hover:text-[#64ffda]"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -273,7 +273,7 @@ function Contact() {
           , combining state-of-the-art{' '}
           <a
             href="https://runwayml.com/"
-            className="text-[#76aaad] hover:text-[#64ffda]"
+            className="text-[#4f7375] hover:text-[#64ffda]"
             target="_blank"
             rel="noopener noreferrer"
           >
