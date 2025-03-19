@@ -124,7 +124,7 @@ const About = () => {
           </div>
 
           {/* Updated to use <video> instead of <img> */}
-          <div className="w-full lg:w-3/5 flex justify-center items-center">
+          <div className="w-full lg:w-3/5 flex justify-center items-center pb-4 lg:px-4">
             <div className="w-full max-w-full lg:max-w-none px-4 lg:px-8">
               <div className="relative">
                 <motion.video
