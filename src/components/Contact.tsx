@@ -292,7 +292,7 @@ function Contact() {
         <footer className="text-center pb-6 text-gray-400 text-m">
           This website was developed by{' '}
           <a
-            href="https://gabrielaldea.vercel.app/"
+            href="https://gabrielaldea.netlify.app/"
             className="text-[#76aaad] hover:text-[#64ffda]"
             target="_blank"
             rel="noopener noreferrer"
