@@ -8,14 +8,14 @@ const Skills = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
 
-  const codeSnippet = `const skills =\n \n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  methodologies: ['Scrum', 'Kanban', 'Agile'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  testing: ['Jest'];\n  emerging: ['AI Integration'];\n  devOps: ['Git', 'CodeSpace', 'Netlify', 'Supabase']; \n  and: much, much more...;`;
+  const codeSnippet = `const skills =\n\n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  methodologies: ['Scrum', 'Kanban', 'Agile'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  testing: ['Jest'];\n  emerging: ['AI Integration'];\n  devOps: ['Git', 'CodeSpace', 'Netlify', 'Supabase'];\n  and: much, much more...;`;
 
   // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
+      setIsMobile(window.innerWidth <= 768);
     };
 
     checkMobile();
@@ -32,57 +32,26 @@ const Skills = () => {
     video.playsInline = true;
 
     if (isMobile) {
-      // Mobile: Use skills12.webm in a loop
+      // Mobile: Play one looping video
       video.src = '/images/skills12.webm';
       video.loop = true;
-
       video.load();
       video.play().catch((err) => console.error('Video play error:', err));
     } else {
-      // Desktop: Sequence through all videos
-      const preloadVideos = async () => {
-        const videoPromises = Array.from({ length: 14 }, (_, i) => {
-          return new Promise<void>((resolve) => {
-            const tempVideo = document.createElement('video');
-            tempVideo.style.display = 'none';
-            tempVideo.preload = 'auto';
-            tempVideo.muted = true;
-            tempVideo.src = `/images/skills${i + 1}.webm`;
-            tempVideo.oncanplaythrough = () => {
-              document.body.removeChild(tempVideo);
-              resolve();
-            };
-            document.body.appendChild(tempVideo);
-          });
-        });
+      // Desktop: Cycle through videos
+      video.loop = false; // Ensure loop is disabled for sequential playback
+      video.src = `/images/skills${currentVideoIndex}.webm`;
+      video.load();
+      video.play().catch((err) => console.error('Video play error:', err));
 
-        await Promise.all(videoPromises);
-        console.log('All videos preloaded');
-
-        // Start with first video
-        video.src = '/images/skills1.webm';
-        video.loop = false;
-        video.load();
-        video.play().catch((err) => console.error('Video play error:', err));
+      const handleEnded = () => {
+        setCurrentVideoIndex((prev) => (prev % 14) + 1); // Cycle through 1-14
       };
 
-      preloadVideos();
-
-      let currentVideoIndex = 1;
-      video.onended = () => {
-        currentVideoIndex = (currentVideoIndex % 14) + 1;
-        video.src = `/images/skills${currentVideoIndex}.webm`;
-        video.load();
-        video.play().catch((err) => console.error('Video play error:', err));
-      };
+      video.addEventListener('ended', handleEnded);
+      return () => video.removeEventListener('ended', handleEnded);
     }
-
-    return () => {
-      video.onended = null;
-      video.pause();
-      video.src = '';
-    };
-  }, [isMobile]);
+  }, [isMobile, currentVideoIndex]);
 
   // Typewriter effect
   useEffect(() => {
