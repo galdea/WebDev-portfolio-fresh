@@ -4,18 +4,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(var(--color-primary) / <alpha-value>)',
-        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
-        accent: 'rgb(var(--color-accent) / <alpha-value>)',
-        'bg-dark': 'rgb(var(--color-bg-dark) / <alpha-value>)',
-        'bg-light': 'rgb(var(--color-bg-light) / <alpha-value>)',
-        text: 'rgb(var(--color-text) / <alpha-value>)',
-        'text-secondary': 'rgb(var(--color-text-secondary) / <alpha-value>)',
+        background: 'rgb(var(--background) / <alpha-value>)',
+        foreground: 'rgb(var(--foreground) / <alpha-value>)',
+        bg: {
+          light: 'rgb(var(--bg-light) / <alpha-value>)',
+        },
+        text: {
+          DEFAULT: 'rgb(var(--text) / <alpha-value>)',
+          secondary: 'rgb(var(--text-secondary) / <alpha-value>)',
+        },
+        primary: {
+          DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+          foreground: 'rgb(var(--primary-foreground) / <alpha-value>)',
+        },
+        secondary: {
+          DEFAULT: 'rgb(var(--secondary) / <alpha-value>)',
+          foreground: 'rgb(var(--secondary-foreground) / <alpha-value>)',
+        },
+        accent: {
+          DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
+          foreground: 'rgb(var(--accent-foreground) / <alpha-value>)',
+        },
+        border: 'rgb(var(--border) / <alpha-value>)',
+        ring: 'rgb(var(--ring) / <alpha-value>)',
       },
       fontFamily: {
         'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
-        'inter': ['Inter', 'sans-serif'],
-        'fira': ['"Fira Code"', 'monospace'],
+        inter: ['Inter', 'sans-serif'],
+        fira: ['"Fira Code"', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

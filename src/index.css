@@ -12,7 +12,33 @@
     --color-bg-dark: 8 15 26; /* #080f1a */
     --color-bg-light: 16 32 57; /* #102039 */
     --color-text: 230 241 255; /* #e6f1ff */
-    --color-text-secondary: 230 241 255; /* #8892b0 */
+    --color-text-secondary: 230 164 180; /* #8892b0 */
+  }
+
+  :root[class~='dark'] {
+    --background: 15 23 42;
+    --foreground: 241 245 249;
+
+    --primary: 99 102 241;
+    --primary-foreground: 255 255 255;
+
+    --secondary: 55 255 255;
+    --secondary-foreground: 241 245 249;
+
+    --accent: 30 41 59;
+    --accent-foreground: 241 245 249;
+
+    --border: 51 65 85;
+    --ring: 99 102 241;
+  }
+
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground transition-colors duration-300;
+    }
   }
 
   html {
@@ -69,4 +95,10 @@
 .cursor-glow {
   @apply fixed pointer-events-none w-8 h-8 bg-secondary/20 rounded-full
          transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 z-50;
+}
+
+@layer utilities {
+  .from-bg-dark {
+    background-color: #481f1f; /* Replace with your desired color */
+  }
 }
