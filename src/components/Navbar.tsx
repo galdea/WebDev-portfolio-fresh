@@ -45,7 +45,6 @@ const Navbar = () => {
     { href: '#about', label: t('nav.about') },
     { href: '#skills', label: t('nav.skills') },
     { href: '#projects', label: t('nav.projects') },
-    // { href: '#gallery', label: t('nav.gallery') },
     { href: '#contact', label: t('nav.contact') },
   ];
 
@@ -57,11 +56,6 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          {/* <a
-            href="#"
-            className="text-2xl font-space-grotesk font-bold text-text"
-          ></a> */}
-
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center justify-center space-x-8 w-full">
             {navLinks.map((link) => (
@@ -114,14 +108,14 @@ const Navbar = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="absolute top-full left-0 right-0 bg-bg-dark/95 backdrop-blur-md md:hidden"
+              className="absolute top-full left-0 right-0 bg-bg-dark/95 backdrop-blur-sm "
             >
-              <div className="flex flex-col py-4">
+              <div className="flex flex-col py-4 bg-black/35">
                 {navLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
-                    className="px-4 py-3 text-text-secondary hover:text-secondary hover:bg-white/5 transition-colors"
+                    className="px-4 py-3 transition-colors text-[#f1f5f9] hover:text-[#65fbda] "
                     onClick={(e) => handleNavClick(e, link.href)}
                   >
                     {link.label}
