@@ -38,7 +38,7 @@ const About = () => {
               currentText += codeSnippet[currentIndex];
               setText(currentText);
               currentIndex++;
-              setTimeout(typeText, 50);
+              setTimeout(typeText, 20);
             }
           };
 
