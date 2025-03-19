@@ -16,6 +16,7 @@ export default defineConfig({
       },
     },
   },
+  publicDir: 'public', // Ensure static assets are served from the public directory
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
