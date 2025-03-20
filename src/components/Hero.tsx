@@ -7,6 +7,7 @@ const Hero = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLightTheme, setIsLightTheme] = useState(false);
 
   // Check if device is mobile on component mount and window resize
   useEffect(() => {
@@ -22,6 +23,23 @@ const Hero = () => {
 
     // Cleanup listener on unmount
     return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
+  // Check for light theme
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+    const handleThemeChange = (e: MediaQueryListEvent) => {
+      setIsLightTheme(e.matches);
+    };
+
+    // Set initial theme
+    setIsLightTheme(mediaQuery.matches);
+
+    // Listen for theme changes
+    mediaQuery.addEventListener('change', handleThemeChange);
+
+    // Cleanup listener on unmount
+    return () => mediaQuery.removeEventListener('change', handleThemeChange);
   }, []);
 
   // Handle video loading
@@ -42,7 +60,13 @@ const Hero = () => {
       )}
 
       {/* Video Background */}
-      <video
+
+      <motion.video
+        initial={{ opacity: 0.8 }}
+        animate={{ opacity: 0.8 }}
+        exit={{ opacity: 0.5 }}
+        muted
+        playsInline
         autoPlay
         loop
         muted
@@ -55,19 +79,29 @@ const Hero = () => {
         <source
           src={
             isMobile
-              ? '/images/Intro-image-sm.webm'
+              ? isLightTheme
+                ? '/images/About-sm.webm'
+                : '/images/Intro-image-sm.webm'
+              : isLightTheme
+              ? '/images/About.webm'
               : '/images/Intro-image.webm'
           }
           type="video/webm"
         />
         <source
           src={
-            isMobile ? '/images/Intro-image-sm.mp4' : '/images/Intro-image.mp4'
+            isMobile
+              ? isLightTheme
+                ? '/images/About-sm.mp4'
+                : '/images/Intro-image-sm.mp4'
+              : isLightTheme
+              ? '/images/About.mp4'
+              : '/images/Intro-image.mp4'
           }
           type="video/mp4"
         />
         Your browser does not support the video tag.
-      </video>
+      </motion.video>
 
       {/* Overlay for better text visibility */}
       <div className="absolute inset-0 bg-black/30 z-0"></div>
