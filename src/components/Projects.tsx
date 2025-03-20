@@ -61,16 +61,7 @@ const Projects = () => {
       description:
         'Website created for Aldeaza Digital, a platform specializing in digital content solutions, including web design, creative media, and data-driven content management. Features custom-built tools for efficient content organization, and a sleek, responsive interface optimized with NextJS and Tailwind CSS.',
       websiteUrl: 'https://aldeazadigital.com',
-      tags: [
-        'Javascript',
-        'React',
-        'NextJS',
-        'Tailwind CSS',
-        'Document database',
-        'Image database',
-        'Excel database',
-        'Web Design',
-      ],
+      tags: ['Javascript', 'React', 'NextJS', 'Tailwind CSS', 'Web Design'],
     },
   ];
 
