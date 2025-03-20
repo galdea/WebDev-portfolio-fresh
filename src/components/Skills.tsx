@@ -50,7 +50,23 @@ const Skills = () => {
       video.play().catch((err) => console.error('Video play error:', err));
 
       const handleEnded = () => {
-        setCurrentVideoIndex((prev) => (prev % 14) + 1); // Cycle through 1-14
+        const nextVideoIndex = (currentVideoIndex % 14) + 1;
+
+        // Replay current video while the next video is loading
+        video.play().catch((err) => console.error('Video replay error:', err));
+
+        const tempVideo = document.createElement('video');
+        tempVideo.src = isIOS
+          ? `/images/skills${nextVideoIndex}.mp4`
+          : `/images/skills${nextVideoIndex}.webm`;
+        tempVideo.load();
+
+        tempVideo.oncanplaythrough = () => {
+          setCurrentVideoIndex(nextVideoIndex);
+          video.src = tempVideo.src;
+          video.load();
+          video.play().catch((err) => console.error('Video play error:', err));
+        };
       };
 
       video.addEventListener('ended', handleEnded);
