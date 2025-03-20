@@ -68,23 +68,20 @@ function Contact() {
 
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait">
-          <motion.video
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.15 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            autoPlay
-            muted
-            loop
-            className="object-cover w-full h-full"
-          >
-            <source
-              src={isIOS ? '/images/About.mp4' : '/images/About.webm'}
-              type={isIOS ? 'video/mp4' : 'video/webm'}
-            />
-          </motion.video>
-        </AnimatePresence>
+        <motion.video
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          exit={{ opacity: 0 }}
+          autoPlay
+          muted
+          loop
+          className="object-cover w-full h-full"
+        >
+          <source
+            src={isIOS ? '/images/About.mp4' : '/images/About.webm'}
+            type={isIOS ? 'video/mp4' : 'video/webm'}
+          />
+        </motion.video>
       </div>
 
       <div className="container mx-auto px-4 z-10 pt-8 sm:pt-0">
@@ -95,6 +92,8 @@ function Contact() {
               <div className="relative">
                 {/* Video for large screens */}
                 <motion.video
+                  initial={{ opacity: 0.8 }}
+                  animate={{ opacity: 0.8 }}
                   className="hidden lg:block rounded-lg shadow-lg w-full h-auto"
                   autoPlay
                   muted
