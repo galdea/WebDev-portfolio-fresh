@@ -111,6 +111,7 @@ function Contact() {
                   autoPlay
                   loop
                   muted
+                  playsInline
                 >
                   <source
                     src={isIOS ? '/images/finale.mp4' : '/images/finale.webm'}
