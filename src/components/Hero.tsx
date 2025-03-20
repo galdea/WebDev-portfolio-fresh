@@ -69,7 +69,6 @@ const Hero = () => {
         playsInline
         autoPlay
         loop
-        playsInline
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
