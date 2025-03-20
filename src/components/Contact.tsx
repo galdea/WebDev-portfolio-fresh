@@ -51,6 +51,14 @@ function Contact() {
     }
   };
 
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    // Detect if the user is on an iOS device
+    const userAgent = window.navigator.userAgent;
+    setIsIOS(/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream);
+  }, []);
+
   return (
     <section
       id="contact"
@@ -71,7 +79,10 @@ function Contact() {
             loop
             className="object-cover w-full h-full"
           >
-            <source src="/images/About.webm" type="video/mp4" />
+            <source
+              src={isIOS ? '/images/About.mp4' : '/images/About.webm'}
+              type={isIOS ? 'video/mp4' : 'video/webm'}
+            />
           </motion.video>
         </AnimatePresence>
       </div>
@@ -88,7 +99,10 @@ function Contact() {
                   autoPlay
                   muted
                 >
-                  <source src="/images/meeting.webm" type="video/webm" />
+                  <source
+                    src={isIOS ? '/images/meeting.mp4' : '/images/meeting.webm'}
+                    type={isIOS ? 'video/mp4' : 'video/webm'}
+                  />
                 </motion.video>
 
                 {/* Video for small screens */}
@@ -98,7 +112,10 @@ function Contact() {
                   loop
                   muted
                 >
-                  <source src="/images/finale.webm" type="video/webm" />
+                  <source
+                    src={isIOS ? '/images/finale.mp4' : '/images/finale.webm'}
+                    type={isIOS ? 'video/mp4' : 'video/webm'}
+                  />
                 </motion.video>
               </div>
             </div>

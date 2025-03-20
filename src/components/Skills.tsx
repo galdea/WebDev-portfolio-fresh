@@ -23,7 +23,6 @@ const Skills = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Handle video setup
   useEffect(() => {
     if (!videoRef.current) return;
 
@@ -31,16 +30,22 @@ const Skills = () => {
     video.muted = true;
     video.playsInline = true;
 
+    // Detect if the user is on iOS
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+
     if (isMobile) {
       // Mobile: Play one looping video
-      video.src = '/images/skills6.webm';
+      video.src = isIOS ? '/images/skills6.mp4' : '/images/skills6.webm';
       video.loop = true;
       video.load();
       video.play().catch((err) => console.error('Video play error:', err));
     } else {
       // Desktop: Cycle through videos
       video.loop = false; // Ensure loop is disabled for sequential playback
-      video.src = `/images/skills${currentVideoIndex}.webm`;
+      video.src = isIOS
+        ? `/images/skills${currentVideoIndex}.mp4`
+        : `/images/skills${currentVideoIndex}.webm`;
       video.load();
       video.play().catch((err) => console.error('Video play error:', err));
 

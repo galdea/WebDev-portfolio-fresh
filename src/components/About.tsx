@@ -23,7 +23,7 @@ const About = () => {
   useEffect(() => {
     // Detect if the user is on iOS
     const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
 
     // Set the initial video format based on the platform
     setCurrentVideo(isIOS ? '/images/About.mp4' : '/images/About.webm');
