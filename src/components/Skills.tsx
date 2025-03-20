@@ -10,7 +10,7 @@ const Skills = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
 
-  const codeSnippet = `const skills =\n\n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  methodologies: ['Scrum', 'Kanban', 'Agile'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  testing: ['Jest'];\n  emerging: ['AI Integration'];\n  devOps: ['Git', 'CodeSpace', 'Netlify', 'Supabase'];\n  and: much, much more...;`;
+  const codeSnippet = `const skills =\n\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  emerging: ['AI Integration'];\n  tools: ['Git', 'CodeSpace', 'Postman','VSCode']; \n  methodologies: ['Scrum', 'Kanban', 'Agile']; \n  deployment:  ['Vercel', 'Netlify', 'Supabase', 'Heroku']; \n  and: [much, much more...];`;
 
   // Check if device is mobile
   useEffect(() => {
@@ -94,7 +94,10 @@ const Skills = () => {
       id="skills"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
-      <video
+      <motion.video
+        initial={{ opacity: 0.7 }}
+        animate={{ opacity: 0.7 }}
+        exit={{ opacity: 0.5 }}
         ref={videoRef}
         muted
         playsInline

@@ -116,12 +116,13 @@ const About = () => {
                   {t('hero.titleHighlight')}
                 </span>
               </h1>
-
-              <div className="bg-bg-light/50 backdrop-blur-sm p-6 rounded-lg mb-8 font-fira">
-                <pre className="text-text-secondary whitespace-pre-wrap">
-                  <code>{text}</code>
-                </pre>
-              </div>
+              <motion.div className="w-full">
+                <div className="bg-bg-light/50 backdrop-blur-sm p-6 rounded-lg mb-8 font-fira">
+                  <pre className="text-text-secondary whitespace-pre-wrap">
+                    <code>{text}</code>
+                  </pre>
+                </div>{' '}
+              </motion.div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <a
@@ -139,6 +140,8 @@ const About = () => {
             <div className="w-full max-w-full lg:max-w-none px-4 lg:px-8">
               <div className="relative">
                 <motion.video
+                  initial={{ opacity: 0.8 }}
+                  animate={{ opacity: 0.8 }}
                   key={currentVideo}
                   src={currentVideo}
                   className="rounded-lg shadow-lg w-full h-auto"
