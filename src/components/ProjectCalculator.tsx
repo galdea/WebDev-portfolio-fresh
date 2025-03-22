@@ -71,11 +71,11 @@ const ProjectCalculator = () => {
   const calculateBasePrice = () => {
     switch (projectType) {
       case 'web':
-        return 400;
+        return 500;
       case 'mobile':
-        return 800;
+        return 900;
       case 'both':
-        return 1100;
+        return 1200;
       default:
         return 0;
     }
