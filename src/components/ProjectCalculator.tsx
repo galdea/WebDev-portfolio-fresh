@@ -339,39 +339,80 @@ const ProjectCalculator = () => {
     doc.text('PROJECT PARAMETERS', 15, currentY - 5);
     currentY += 8;
 
-    // Create a grid layout for specifications
-    const createSpecBox = (label, value, posY) => {
+    const createSpecBox = (
+      label: string,
+      value: string | string[],
+      posX: number,
+      posY: number,
+    ) => {
+      const boxWidth = 55;
+      let boxHeight = 25;
+
+      // Prepare the text
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      let textToRender = Array.isArray(value) ? value.join(', ') : value;
+
+      // Calculate needed height for text
+      const maxWidth = boxWidth - 10;
+      const splitText = doc.splitTextToSize(textToRender, maxWidth);
+
+      // Add extra height if needed (3.5 points per line)
+      if (splitText.length > 1) {
+        boxHeight = 15 + splitText.length * 3.5;
+      }
+
+      // Draw the background box with adjusted height
       doc.setFillColor(
         colors.darkBlue[0],
         colors.darkBlue[1],
         colors.darkBlue[2],
       );
-      doc.roundedRect(15, posY - 5, 55, 25, 2, 2, 'F');
+      doc.roundedRect(posX, posY - 5, boxWidth, boxHeight, 2, 2, 'F');
 
       // Label with clean styling
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
-      doc.text(label.toUpperCase(), 20, posY + 2);
+      doc.text(label.toUpperCase(), posX + 5, posY + 2);
 
-      // Value
+      // Value with wrapped text
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFontSize(8);
       doc.setTextColor(
         colors.lightText[0],
         colors.lightText[1],
         colors.lightText[2],
       );
-      doc.text(value, 20, posY + 12);
+
+      // Render the wrapped text
+      doc.text(splitText, posX + 5, posY + 12);
+
+      // Return the new height so you can adjust other elements
+      return boxHeight;
     };
 
     // Create specification boxes in a grid layout
-    createSpecBox('Features', summary.features, currentY);
-    createSpecBox('Scale', summary.scale, currentY);
-    createSpecBox('Design', summary.design, currentY);
-    createSpecBox('Timeline', summary.timeline, currentY + 30);
+    const featuresHeight = createSpecBox(
+      'Features',
+      summary.features,
+      15,
+      currentY,
+    );
+    createSpecBox('Scale', summary.scale, 80, currentY);
+    createSpecBox('Design', summary.design, 145, currentY);
+    createSpecBox(
+      'Timeline',
+      summary.timeline,
+      15,
+      currentY + featuresHeight + 5,
+    );
 
-    currentY += 65;
+    // After creating your specification boxes with the modified createSpecBox function
+
+    // Update the currentY position to account for the specs section height
+    // Add some padding (20 units) between the specs section and the quote box
+    currentY += 60; // This should be enough to clear the previous content
 
     // Quote box with clean styling
     doc.setDrawColor(colors.teal[0], colors.teal[1], colors.teal[2]);
