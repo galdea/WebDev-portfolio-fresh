@@ -173,17 +173,24 @@ const ProjectCalculator = () => {
       const pdfDataUrl = doc.output('datauristring');
 
       // Create template parameters for EmailJS
+      // Note: parameter names must match EXACTLY what's in your template
       const templateParams = {
+        // Basic user info
+        to_name: name, // Add a recipient name if your template uses it
         from_name: name,
         from_email: email,
         message: message,
-        project_type: summary.projectType,
+
+        // Project details - match these exactly to your template variables without {{}}
+        projectType: summary.projectType,
         features: summary.features.join(', '),
         scale: summary.scale,
         design: summary.design,
         timeline: summary.timeline,
-        total_cost: `USD $${summary.totalCost.toLocaleString()}`,
-        pdf_attachment: pdfDataUrl,
+        total: summary.totalCost.toLocaleString(), // Your template uses {{total}} not total_cost
+
+        // PDF attachment
+        pdf_data: pdfDataUrl,
       };
 
       // Send the email using EmailJS
@@ -199,6 +206,7 @@ const ProjectCalculator = () => {
       setTimeout(() => setSubmitStatus('idle'), 5000);
     }
   };
+
   const createPDF = () => {
     const summary = generateSummary();
 
