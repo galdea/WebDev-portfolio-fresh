@@ -59,6 +59,18 @@ function Contact() {
     setIsIOS(/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream);
   }, []);
 
+  document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    if (hash === '#contact') {
+      setTimeout(() => {
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 500); // Delay ensures smooth scrolling after page load
+    }
+  });
+
   return (
     <section
       id="contact"
