@@ -72,6 +72,7 @@ function Contact() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.15 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
           autoPlay
           muted
           loop

@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 const Projects = () => {
   const [text, setText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   const slides = [
     {
@@ -64,9 +66,6 @@ const Projects = () => {
       tags: ['Javascript', 'React', 'NextJS', 'Tailwind CSS', 'Web Design'],
     },
   ];
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -140,7 +139,7 @@ const Projects = () => {
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-clip-text">
           Projects
         </h1>
-        <div className=" backdrop-blur-sm p-6 text-center rounded-lg mb-8">
+        <div className="backdrop-blur-sm p-6 text-center rounded-lg mb-8">
           <code>
             Explore some of my projects, each site showcasing unique challenges
             and creative solutions.
@@ -230,10 +229,10 @@ const Projects = () => {
             <motion.button
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
-              className="left-chevron-button bg-black/30 absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10  text-[#64ffda] rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-[#07121e]/60 transition-all duration-300 z-10"
+              className="left-chevron-button bg-black/30 absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 text-[#64ffda] rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-[#07121e]/60 transition-all duration-300 z-10"
               onClick={() => paginate(-1)}
             >
-              <ChevronLeft className="bg-black/50w-6 h-6 " />
+              <ChevronLeft className="w-6 h-6" />
             </motion.button>
 
             <motion.button

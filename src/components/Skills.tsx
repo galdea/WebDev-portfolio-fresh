@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { Calculator, ChevronDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ProjectCalculator from './ProjectCalculator';
 
 const Skills = () => {
   const [text, setText] = useState('');
@@ -9,6 +10,12 @@ const Skills = () => {
   const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const popupRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // Added missing state for direction
+
+  const slides = Array(5).fill(null); // Placeholder for slides array
 
   const codeSnippet = `const skills =\n\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  emerging: ['AI Integration'];\n  tools: ['Git', 'CodeSpace', 'Postman','VSCode']; \n  methodologies: ['Scrum', 'Kanban', 'Agile']; \n  deployment:  ['Vercel', 'Netlify', 'Supabase', 'Heroku']; \n  and: Much, much more...;`;
 
@@ -105,10 +112,31 @@ const Skills = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !(popupRef.current as Node).contains(event.target as Node)
+      ) {
+        setIsPopupOpen(false);
+      }
+    };
+
+    if (isPopupOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isPopupOpen]);
+
   return (
     <section
       id="skills"
-      className="min-h-screen flex items-center relative overflow-hidden"
+      className="min-h-screen flex items-center relative overflow-hidden pt-12"
     >
       <motion.video
         initial={{ opacity: 0.7 }}
@@ -121,11 +149,55 @@ const Skills = () => {
       />
 
       <div className="relative z-20 container mx-auto px-4">
+        {/* Code snippet */}
         <pre className="text-[#64ffda] font-mono text-lg bg-black/50 p-4 rounded whitespace-pre-line break-words">
           {text}
         </pre>
+
+        {/* Project Quote Calculator button */}
+        <div className="flex justify-center pt-12 mb-20">
+          <div className="flex justify-center item-center pt-3 pr-4">
+            <Calculator size={28} />
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsPopupOpen(true)}
+            className="flex flex-col sm:flex-row gap-4 justify-center btn-primary over:scale-110 text-center bg-black/10 border-[#64ffda] text-[#64ffda]"
+          >
+            <code>Project Quote Calculator</code>
+          </motion.button>
+          <div className="flex justify-center item-center pt-3 pl-4">
+            <Calculator size={28} />
+          </div>
+        </div>
       </div>
 
+      {isPopupOpen && (
+        <>
+          {/* Background overlay */}
+          <div className="fixed inset-0 bg-black/60 z-40 "></div>
+
+          {/* Background overlay */}
+          <div className="fixed flex items-center justify-center z-50 inset-0 p-4">
+            <button
+              className="absolute top-4 right-4 text-gray-300 hover:text-gray-200 z-50 text-lg md:text-xl lg:text-2xl"
+              onClick={() => setIsPopupOpen(false)}
+            >
+              ✕
+            </button>
+            <motion.div
+              ref={popupRef}
+              initial={{ scale: 0.3, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className=" shadow-lg max-w-lg w-full relative bg-white/20 rounded-lg"
+            >
+              <ProjectCalculator />
+            </motion.div>
+          </div>
+        </>
+      )}
       <motion.div
         initial={{ y: -10 }}
         animate={{ y: 10 }}
