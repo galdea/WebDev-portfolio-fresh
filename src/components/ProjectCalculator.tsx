@@ -205,111 +205,264 @@ const ProjectCalculator = () => {
 
     // Set document properties
     doc.setProperties({
-      title: 'Project Quote Summary',
-      subject: 'Project Cost Estimation',
-      author: 'Project Calculator',
-      creator: 'Project Calculator Tool',
+      title: 'Web Development Project Quote',
+      subject: 'Professional Quote for Web Development Services',
+      author: 'Gabriel Aldea',
+      creator: 'Web Development Portfolio',
     });
 
-    // Add background color (light version of the site's dark theme)
-    doc.setFillColor(18, 31, 52);
+    // Use only the specified color palette (hex to RGB conversion)
+    const colors = {
+      teal: [100, 255, 218], // #64ffda - Primary accent
+      darkBlue: [18, 31, 52], // #121f34 - Medium dark background
+      deepBlue: [8, 17, 30], // #08111e - Darkest background
+      lightText: [230, 241, 255], // #e6f1ff - Bright text
+      mutedText: [136, 146, 175], // #8892af - Muted text
+    };
+
+    // Set page background to the darkest blue
+    doc.setFillColor(
+      colors.deepBlue[0],
+      colors.deepBlue[1],
+      colors.deepBlue[2],
+    );
     doc.rect(0, 0, 210, 297, 'F');
 
-    // Set text colors similar to the website
-    doc.setTextColor(230, 241, 255); // Light text color
+    // Add a professional header section
+    doc.setFillColor(
+      colors.darkBlue[0],
+      colors.darkBlue[1],
+      colors.darkBlue[2],
+    );
+    doc.rect(0, 0, 210, 50, 'F');
 
-    // Add title
+    // Add a subtle accent strip on top
+    doc.setFillColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.rect(0, 0, 210, 3, 'F');
+
+    // Add title with clean, professional styling
+    doc.setTextColor(
+      colors.lightText[0],
+      colors.lightText[1],
+      colors.lightText[2],
+    );
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(24);
-    doc.text('Project Quote Summary', 105, 20, { align: 'center' });
+    doc.setFontSize(22);
+    doc.text('WEB DEVELOPMENT', 25, 20);
 
-    // Add divider
-    doc.setDrawColor(100, 255, 218); // Teal color for lines
-    doc.setLineWidth(0.5);
-    doc.line(20, 25, 190, 25);
+    doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.setFontSize(26);
+    doc.text('PROJECT QUOTE', 25, 32);
 
-    // Set font for content
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(12);
+    // Add subtitle
+    doc.setTextColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
+    );
+    doc.setFontSize(9);
+    doc.text('Professional web solutions', 25, 42);
 
-    // Add content
-    const startY = 40;
-    const lineHeight = 10;
+    // Add document date
+    const today = new Date();
+    const dateStr = today.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    doc.setFontSize(8);
+    doc.text(`Generated: ${dateStr}`, 150, 42);
+
+    // Add content sections with clean, modern styling
+    const startY = 65;
+    let currentY = startY;
+
+    // Project section
+    // Add section divider
+    doc.setDrawColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
+    );
+    doc.setLineWidth(0.2);
+    doc.line(15, currentY - 8, 195, currentY - 8);
+    doc.setTextColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
+    );
+    doc.setFontSize(8);
+    doc.text('PROJECT SPECIFICATIONS', 15, currentY - 10);
+    currentY += 5;
 
     // Project type
+    doc.setFillColor(
+      colors.darkBlue[0],
+      colors.darkBlue[1],
+      colors.darkBlue[2],
+    );
+    doc.roundedRect(15, currentY - 5, 180, 14, 2, 2, 'F');
     doc.setFont('helvetica', 'bold');
-    doc.text('Project Type:', 20, startY);
+    doc.setFontSize(10);
+    doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.text('PROJECT TYPE:', 20, currentY + 2);
     doc.setFont('helvetica', 'normal');
-    doc.text(summary.projectType, 80, startY);
+    doc.setTextColor(
+      colors.lightText[0],
+      colors.lightText[1],
+      colors.lightText[2],
+    );
+    doc.text(summary.projectType, 80, currentY + 2);
+    currentY += 18;
 
-    // Features
+    currentY += 2;
+
+    // Project parameters section
+    doc.setDrawColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
+    );
+    doc.setLineWidth(0.2);
+    doc.line(15, currentY - 3, 195, currentY - 3);
+    doc.setTextColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
+    );
+    doc.setFontSize(8);
+    doc.text('PROJECT PARAMETERS', 15, currentY - 5);
+    currentY += 8;
+
+    // Create a grid layout for specifications
+    const createSpecBox = (label, value, posY) => {
+      doc.setFillColor(
+        colors.darkBlue[0],
+        colors.darkBlue[1],
+        colors.darkBlue[2],
+      );
+      doc.roundedRect(15, posY - 5, 55, 25, 2, 2, 'F');
+
+      // Label with clean styling
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+      doc.text(label.toUpperCase(), 20, posY + 2);
+
+      // Value
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(
+        colors.lightText[0],
+        colors.lightText[1],
+        colors.lightText[2],
+      );
+      doc.text(value, 20, posY + 12);
+    };
+
+    // Create specification boxes in a grid layout
+    createSpecBox('Features', summary.features, currentY);
+    createSpecBox('Scale', summary.scale, currentY);
+    createSpecBox('Design', summary.design, currentY);
+    createSpecBox('Timeline', summary.timeline, currentY + 30);
+
+    currentY += 65;
+
+    // Quote box with clean styling
+    doc.setDrawColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.setLineWidth(0.5);
+    doc.setFillColor(
+      colors.darkBlue[0],
+      colors.darkBlue[1],
+      colors.darkBlue[2],
+    );
+    doc.roundedRect(15, currentY - 5, 180, 40, 3, 3, 'FD');
+
+    // Add pricing label
+    doc.setTextColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
+    );
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.text('TOTAL ESTIMATED COST', 25, currentY + 10);
+
+    // Price with clean styling
+    doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.setFontSize(15);
     doc.setFont('helvetica', 'bold');
-    doc.text('Features:', 20, startY + lineHeight);
-    doc.setFont('helvetica', 'normal');
-
-    let featureY = startY + lineHeight;
-    summary.features.forEach((feature, index) => {
-      featureY += lineHeight;
-      doc.text(`• USD ${feature}`, 80, featureY);
+    doc.text(`$${summary.totalCost.toLocaleString()} USD`, 25, currentY + 20, {
+      align: 'left', // Align text to the left
     });
 
-    // Scale
-    featureY += lineHeight;
-    doc.setFont('helvetica', 'bold');
-    doc.text('Scale:', 20, featureY + lineHeight);
-    doc.setFont('helvetica', 'normal');
-    doc.text(summary.scale, 80, featureY + lineHeight);
-
-    // Design
-    doc.setFont('helvetica', 'bold');
-    doc.text('Design:', 20, featureY + 2 * lineHeight);
-    doc.setFont('helvetica', 'normal');
-    doc.text(summary.design, 80, featureY + 2 * lineHeight);
-
-    // Timeline
-    doc.setFont('helvetica', 'bold');
-    doc.text('Timeline:', 20, featureY + 3 * lineHeight);
-    doc.setFont('helvetica', 'normal');
-    doc.text(summary.timeline, 80, featureY + 3 * lineHeight);
-
-    // Add divider before total
-    doc.setDrawColor(100, 255, 218);
-    doc.setLineWidth(0.3);
-    doc.line(20, featureY + 4 * lineHeight, 190, featureY + 4 * lineHeight);
-
-    // Total Estimated Cost
-    doc.setFontSize(16);
-    doc.setTextColor(100, 255, 218); // Teal color for total cost
-    doc.setFont('helvetica', 'bold');
-    doc.text('Total Estimated Cost:', 20, featureY + 5 * lineHeight);
-    doc.setFontSize(20);
+    // Add disclaimer
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(8);
+    doc.setTextColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
+    );
     doc.text(
-      `USD $${summary.totalCost.toLocaleString()}`,
-      190,
-      featureY + 5 * lineHeight,
-      { align: 'right' },
+      '*  This quote is provided for reference purposes only and requires further discussion.',
+      25,
+      currentY + 45,
     );
 
-    // Footer with contact info
+    // Footer section
+    const footerY = 250;
+
+    // Add professionally styled footer
+    doc.setFillColor(
+      colors.darkBlue[0],
+      colors.darkBlue[1],
+      colors.darkBlue[2],
+    );
+    doc.rect(0, footerY - 5, 250, 52, 'F');
+
+    // Add footer accent
+    doc.setFillColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.rect(0, footerY - 5, 250, 1, 'F');
+
+    // Contact information with modern styling
     doc.setFontSize(10);
-    doc.setTextColor(230, 241, 255);
-    doc.text(
-      'For more information, feel free to contact me to galdea@uc.cl',
-      105,
-      260,
-      { align: 'center' },
+    doc.setTextColor(
+      colors.mutedText[0],
+      colors.mutedText[1],
+      colors.mutedText[2],
     );
-    doc.text(
-      'This quote is just for reference and should be discussed further.',
-      105,
-      270,
-      { align: 'center' },
-    );
+    doc.text('CONTACT INFORMATION', 20, footerY + 5);
 
-    // Current date at the bottom
-    const today = new Date();
-    const dateStr = today.toLocaleDateString();
-    doc.text(`Generated on: ${dateStr}`, 20, 280);
+    // Email
+    doc.setTextColor(
+      colors.lightText[0],
+      colors.lightText[1],
+      colors.lightText[2],
+    );
+    doc.text('Email:', 20, footerY + 15);
+    doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.text('galdea@uc.cl', 60, footerY + 15);
+
+    // Website
+    doc.setTextColor(
+      colors.lightText[0],
+      colors.lightText[1],
+      colors.lightText[2],
+    );
+    doc.text('Website:', 20, footerY + 25);
+    doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.text('https://gabrielaldea.netlify.app', 60, footerY + 25);
+
+    // Whatsapp
+    doc.setTextColor(
+      colors.lightText[0],
+      colors.lightText[1],
+      colors.lightText[2],
+    );
+    doc.text('Whatsapp:', 20, footerY + 35);
+    doc.setTextColor(colors.teal[0], colors.teal[1], colors.teal[2]);
+    doc.text('(+569) 93441532', 60, footerY + 35);
 
     return doc;
   };
@@ -642,7 +795,7 @@ const ProjectCalculator = () => {
               <input
                 type="hidden"
                 name="total_cost"
-                value={`USD $${summary.totalCost.toLocaleString()}`}
+                value={` $${summary.totalCost.toLocaleString()}`}
               />
 
               <div className="flex gap-4">
