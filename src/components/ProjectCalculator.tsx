@@ -53,7 +53,7 @@ const ProjectCalculator = () => {
     { name: 'Search Functionality', percentage: 10, selected: false },
     { name: 'Multi-language Support', percentage: 10, selected: false },
     { name: 'Light & Dark Theme', percentage: 5, selected: false },
-    { name: 'Analytics Integration', percentage: 10, selected: false },
+    { name: 'Blog Functionality', percentage: 15, selected: false },
   ]);
   const [scale, setScale] = useState<string>('');
   const [design, setDesign] = useState<string>('');
@@ -294,13 +294,13 @@ const ProjectCalculator = () => {
     doc.setFontSize(10);
     doc.setTextColor(230, 241, 255);
     doc.text(
-      'For more information, please contact us at info@aldeazadigital.com',
+      'For more information, feel free to contact me to galdea@uc.cl',
       105,
       260,
       { align: 'center' },
     );
     doc.text(
-      'This quote is valid for 30 days from the date of generation.',
+      'This quote is just for reference and should be discussed further.',
       105,
       270,
       { align: 'center' },
@@ -359,27 +359,31 @@ const ProjectCalculator = () => {
 
       case 1:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {features.map((feature, index) => (
-              <button
-                key={index}
-                className={`w-full p-4 rounded-lg transition-all border ${
-                  feature.selected
-                    ? 'bg-[#64ffdb7d] text-[#08111e] border-[#64ffda]'
-                    : 'border-[#64ffdb82] hover:bg-[#1a2942c5]'
-                }`}
-                onClick={() => {
-                  const newFeatures = [...features];
-                  newFeatures[index].selected = !newFeatures[index].selected;
-                  setFeatures(newFeatures);
-                }}
-              >
-                <div className="flex justify-between items-center">
-                  <span>{feature.name}</span>
-                  <span>+{feature.percentage}%</span>
-                </div>
-              </button>
-            ))}
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto max-h-[60vh]">
+              {features.map((feature, index) => (
+                <button
+                  key={index}
+                  className={`w-full p-3 sm:p-4 rounded-lg transition-all border ${
+                    feature.selected
+                      ? 'bg-[#64ffdb7d] text-[#08111e] border-[#64ffda]'
+                      : 'border-[#64ffdb82] hover:bg-[#1a2942c5]'
+                  }`}
+                  onClick={() => {
+                    const newFeatures = [...features];
+                    newFeatures[index].selected = !newFeatures[index].selected;
+                    setFeatures(newFeatures);
+                  }}
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm sm:text-base">{feature.name}</span>
+                    <span className="text-sm sm:text-base">
+                      +{feature.percentage}%
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         );
 
@@ -519,8 +523,8 @@ const ProjectCalculator = () => {
       case 5:
         const summary = generateSummary();
         return (
-          <div className="space-y-6 ">
-            <div className="bg-[#1a29427d] text-[#ffffff] rounded-lg p-6 space-y-4 ">
+          <div className="space-y-6">
+            <div className="bg-[#1a29427d] text-[#ffffff] rounded-lg p-6 space-y-4 hidden sm:block">
               <h3 className="text-xl font-bold mb-4">Project Summary</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
@@ -547,12 +551,18 @@ const ProjectCalculator = () => {
                   <span className="opacity-80">Timeline:</span>
                   <span className="font-semibold">{summary.timeline}</span>
                 </div>
-                <div className="flex justify-between pt-4 border-t border-[#64ffda]/20">
-                  <span className="text-lg">Total Estimated Cost:</span>
-                  <span className="text-2xl font-bold text-[#64ffda]">
-                    USD ${summary.totalCost.toLocaleString()}
-                  </span>
-                </div>
+              </div>
+            </div>
+
+            {/* Estimated Cost - Always visible */}
+            <div className="bg-[#112240]/50 border border-[#64ffda]/30 rounded-xl p-4">
+              <div className="flex justify-between items-center">
+                <span className="text-lg sm:text-xl">
+                  Total Estimated Cost:
+                </span>
+                <span className="text-2xl sm:text-3xl font-bold text-[#64ffda]">
+                  USD ${summary.totalCost.toLocaleString()}
+                </span>
               </div>
             </div>
 
@@ -696,7 +706,7 @@ const ProjectCalculator = () => {
     <div className="p-4 md:p-8 rounded-lg pt-5 backdrop-blur-lg max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg max-h-[90%] lg:max-h-[80%] mx-auto inset-0">
       <div className="max-w-4xl mx-auto">
         {/* Progress bar */}
-        <div className="mb-8">
+        <div className="sm:mb-2 md:mb-6 lg:mb-6">
           <div className="flex justify-between mb-2">
             {steps.map((step, index) => (
               <div
@@ -715,22 +725,27 @@ const ProjectCalculator = () => {
             <h2 className="text-2xl font-bold mb-2 text-[#ffffff]">
               {steps[currentStep].title}
             </h2>
-            <p className="text-[#ffffffce]">{steps[currentStep].description}</p>
+            <p className="text-[#ffffffce] hidden sm:block">
+              {steps[currentStep].description}
+            </p>
           </div>
         </div>
 
         {/* Calculator content */}
-        <div className="bg-[#112240]/50 border border-[#64ffda]/30 rounded-xl p-3 mb-6">
+        <div className="bg-[#112240]/50 border border-[#64ffda]/30 rounded-xl p-3 mb-2 sm:mb-2 md:mb-6 lg:mb-6 ">
           {renderStep()}
         </div>
 
         {/* Running total */}
         {currentStep < 5 && (
-          <div className="bg-[#112240]/50 border border-[#64ffda]/30 rounded-xl p-6 mb-8">
+          <div className="bg-[#112240]/50 border border-[#64ffda]/30 rounded-xl p-4 mb-2 sm:mb-2 md:mb-6 lg:mb-6">
+            {' '}
             <div className="flex justify-between items-center">
-              <span className="text-lg">Estimated Cost:</span>
-              <span className="text-3xl font-bold text-[#64ffda]">
-                USD ${calculateTotalPrice().toLocaleString()}
+              <span className="text-base sm:text-lg">
+                Estimated Cost (USD):
+              </span>
+              <span className="text-2xl sm:text-3xl font-bold text-[#64ffda]">
+                ${calculateTotalPrice().toLocaleString()}
               </span>
             </div>
           </div>
