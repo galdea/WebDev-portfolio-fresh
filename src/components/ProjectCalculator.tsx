@@ -160,13 +160,18 @@ const ProjectCalculator = () => {
     };
   };
 
-  const handleSubmitQuote = async (e: React.FormEvent) => {
+  const handleSubmitQuote = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const summary = generateSummary();
 
     try {
+      // Create the PDF document
+      const doc = createPDF();
+      // Convert PDF to base64 data URL
+      const pdfDataUrl = doc.output('datauristring');
+
       // Create template parameters for EmailJS
       const templateParams = {
         from_name: name,
@@ -178,25 +183,22 @@ const ProjectCalculator = () => {
         design: summary.design,
         timeline: summary.timeline,
         total_cost: `USD $${summary.totalCost.toLocaleString()}`,
+        pdf_attachment: pdfDataUrl,
       };
 
       // Send the email using EmailJS
       await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID);
 
       setSubmitStatus('success');
-
-      // Clear form fields after successful submission
       setMessage('');
     } catch (error) {
       console.error('Error submitting quote:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
-      // Reset status after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000);
     }
   };
-
   const createPDF = () => {
     const summary = generateSummary();
 
