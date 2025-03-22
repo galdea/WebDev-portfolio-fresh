@@ -169,31 +169,26 @@ const ProjectCalculator = () => {
     try {
       // Create the PDF document
       const doc = createPDF();
-      // Convert PDF to base64 data URL
-      const pdfDataUrl = doc.output('datauristring');
+
+      // Convert the PDF to base64 - Fixed approach for PDF attachment
+      const pdfBase64 = doc.output('datauristring');
 
       // Create template parameters for EmailJS
-      // Note: parameter names must match EXACTLY what's in your template
       const templateParams = {
-        // Basic user info
-        to_name: name, // Add a recipient name if your template uses it
         from_name: name,
         from_email: email,
-        message: message,
-
-        // Project details - match these exactly to your template variables without {{}}
+        message: message || 'No additional message provided',
         projectType: summary.projectType,
         features: summary.features.join(', '),
         scale: summary.scale,
         design: summary.design,
         timeline: summary.timeline,
-        total: summary.totalCost.toLocaleString(), // Your template uses {{total}} not total_cost
-
-        // PDF attachment
-        pdf_data: pdfDataUrl,
+        total: `${summary.totalCost.toLocaleString()}`,
+        pdf_content: pdfBase64,
+        pdf_name: 'project-quote.pdf',
       };
 
-      // Send the email using EmailJS
+      // Send email using EmailJS
       await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID);
 
       setSubmitStatus('success');
@@ -770,23 +765,6 @@ const ProjectCalculator = () => {
                   placeholder="your@email.com"
                 />
               </div>
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2 text-[#ffffff]"
-                >
-                  Additional Details (Optional)
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full h-20 p-3 rounded-lg bg-[#1a29427d] border border-[#64ffda]/20 focus:border-[#64ffda] focus:outline-none transition-colors"
-                  rows={4}
-                  placeholder="Any specific requirements or questions?"
-                />
-              </div>
 
               {/* Hidden fields to send with the form */}
               <input
@@ -832,7 +810,7 @@ const ProjectCalculator = () => {
               </div>
               {submitStatus === 'success' && (
                 <div className="p-2 rounded-lg bg-green-500/20 text-green-300">
-                  Quote request sent successfully! We'll contact you soon.
+                  Quote request sent successfully! I'll contact you soon.
                 </div>
               )}
               {submitStatus === 'error' && (
