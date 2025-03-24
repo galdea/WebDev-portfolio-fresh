@@ -117,9 +117,17 @@ const About = () => {
                 </span>
               </h1>
               <motion.div className="w-full">
-                <div className="bg-bg-light/50 backdrop-blur-sm p-6 rounded-lg mb-8 font-fira">
+                {/* Fixed-height container based on the final text size */}
+                <div
+                  className="bg-bg-light/50 backdrop-blur-sm p-6 rounded-lg mb-8 font-fira"
+                  style={{ minHeight: '320px' }}
+                >
                   <pre className="text-text-secondary whitespace-pre-wrap">
                     <code>{text}</code>
+                  </pre>
+                  {/* Invisible element with the full text to reserve space */}
+                  <pre className="text-text-secondary whitespace-pre-wrap absolute opacity-0 pointer-events-none">
+                    <code>{codeSnippet}</code>
                   </pre>
                 </div>{' '}
               </motion.div>
