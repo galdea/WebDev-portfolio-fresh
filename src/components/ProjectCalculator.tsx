@@ -46,6 +46,8 @@ const ProjectCalculator = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [projectType, setProjectType] = useState<string>('');
   const [features, setFeatures] = useState<Feature[]>([
+    { name: 'Landing Page (only)', percentage: 0, selected: false },
+
     { name: 'Database Integration', percentage: 15, selected: false },
     { name: 'User Authentication', percentage: 15, selected: false },
     { name: 'API Integration', percentage: 12, selected: false },
@@ -531,7 +533,7 @@ const ProjectCalculator = () => {
               }`}
               onClick={() => setProjectType('web')}
             >
-              Web App (Landing Page only)
+              Website
             </button>
             <button
               className={`w-full p-4 rounded-lg transition-all border ${
@@ -591,17 +593,17 @@ const ProjectCalculator = () => {
           <div className="space-y-4">
             {[
               {
-                value: 'small',
+                value: 'Small',
                 label: 'Small (<100 users)',
                 modifier: 'Base pricing',
               },
               {
-                value: 'medium',
+                value: 'Medium',
                 label: 'Medium (100-1,000 users)',
                 modifier: '+15%',
               },
               {
-                value: 'large',
+                value: 'Large',
                 label: 'Large (1,000-5,000 users)',
                 modifier: '+30%',
               },
@@ -613,7 +615,7 @@ const ProjectCalculator = () => {
               {
                 value: 'unsure',
                 label: 'Not sure yet',
-                modifier: 'Medium pricing',
+                modifier: 'Base pricing',
               },
             ].map((option) => (
               <button
@@ -687,17 +689,17 @@ const ProjectCalculator = () => {
             {[
               {
                 value: 'standard',
-                label: 'Standard (2-3 months)',
+                label: 'Standard (1-2 months)',
                 modifier: 'Base price',
               },
               {
                 value: 'accelerated',
-                label: 'Accelerated (1-2 months)',
+                label: 'Accelerated (1 month)',
                 modifier: '+30%',
               },
               {
                 value: 'urgent',
-                label: 'Urgent (1 month or less)',
+                label: 'Urgent (2 weeks or less)',
                 modifier: '+60%',
               },
             ].map((option) => (
