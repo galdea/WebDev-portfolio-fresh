@@ -150,25 +150,30 @@ const Skills = () => {
 
       <div className="relative z-20 container mx-auto px-4">
         {/* Code snippet */}
-        <pre className="text-[#64ffda] font-mono text-lg bg-black/50 p-4 rounded whitespace-pre-line break-words">
-          {text}
-        </pre>
+        <div
+          className="bg-black/50 mb-4 rounded"
+          style={{ minHeight: '420px' }}
+        >
+          <pre className="text-[#64ffda] font-mono text-lg p-4 whitespace-pre-line break-words">
+            {text}
+          </pre>
 
-        {/* Project Quote Calculator button */}
-        <div className="flex justify-center pt-12 mb-20">
-          <div className="flex justify-center item-center pt-3 pr-4">
-            <Calculator size={28} />
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsPopupOpen(true)}
-            className="flex flex-col sm:flex-row gap-4 justify-center btn-primary over:scale-110 text-center bg-black/10 border-[#64ffda] text-[#64ffda]"
-          >
-            <code>Project Quote Calculator</code>
-          </motion.button>
-          <div className="flex justify-center item-center pt-3 pl-4">
-            <Calculator size={28} />
+          {/* Project Quote Calculator button */}
+          <div className="flex justify-center pt-12 mb-20 pb-4">
+            <div className="flex justify-center item-center pt-3 pr-4">
+              <Calculator size={28} />
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsPopupOpen(true)}
+              className="flex flex-col sm:flex-row gap-4 justify-center btn-primary over:scale-110 text-center bg-black/10 border-[#64ffda] text-[#64ffda]"
+            >
+              <code>Project Quote Calculator</code>
+            </motion.button>
+            <div className="flex justify-center item-center pt-3 pl-4">
+              <Calculator size={28} />
+            </div>
           </div>
         </div>
       </div>
