@@ -40,7 +40,7 @@ const Projects = () => {
       ],
     },
     {
-      videoId: '54321',
+      videoId: '3t2nWpHMn3A',
       title: 'Dron Estudio',
       description:
         'Landing page for a drone filming agency, showcasing professional aerial videography and photography services. Includes a project quote calculator and a video gallery',
@@ -86,6 +86,24 @@ const Projects = () => {
         'Tailwind CSS',
         'Web Design',
         'Landing Page',
+      ],
+    },
+    {
+      videoId: 'DfgJA3QlMvc',
+      title: 'Forever Clothing Store',
+      description:
+        'Forever Clothing Store is a modern e-commerce platform offering a curated selection of stylish and timeless apparel. Designed with a sleek and user-friendly interface, the website provides a seamless shopping experience, integrating advanced filtering options, secure checkout, and engaging product visuals.',
+      websiteUrl: 'https://foreverclothes.netlify.app',
+      tags: [
+        'Squarespace',
+        'CSS',
+        'Javascript',
+        'Typescript',
+        'E-Commerce',
+        'API Integration',
+        'Product Filtering',
+        'Secure Checkout',
+        'Creative content',
       ],
     },
   ];
