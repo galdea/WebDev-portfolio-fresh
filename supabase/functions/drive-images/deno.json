@@ -1,0 +1,6 @@
+{
+  "nodeModulesDir": "auto",
+  "tasks": {
+    "start": "deno run --allow-net --allow-read --allow-env supabase/functions/drive-images/index.ts"
+  }
+}
