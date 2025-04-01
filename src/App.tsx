@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './components/About';
+import Carpentry from './components/Carpentry';
 import Contact from './components/Contact';
+import Galleries from './components/Galleries';
 import { Gallery } from './components/Gallery';
+import GenerativeAI from './components/GenerativeAI';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import Projects from './components/Projects';
@@ -23,11 +26,15 @@ function App() {
                   <About />
                   <Skills />
                   <Projects />
+                  <Galleries />
                   <Contact />
                 </>
               }
             />
+            <Route path="/generativeAI" element={<GenerativeAI />} />
+
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/carpentry" element={<Carpentry />} />
           </Routes>
         </div>
       </Router>

@@ -243,7 +243,7 @@ export function Gallery() {
               src={selectedImage.webContentLink}
               alt={selectedImage.name}
               className="max-h-[80vh] max-w-[90vw] w-auto rounded-lg"
-              style={{ boxShadow: `0 10px 30px rgba(101, 251, 218, 0.2)` }}
+              style={{ boxShadow: `0 10px 30px rgba(101, 251, 218, 0.1)` }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}

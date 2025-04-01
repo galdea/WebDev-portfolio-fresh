@@ -177,10 +177,16 @@ const Projects = () => {
       className="bg-black/30 min-h-screen py-14 sm:py-20 px-4"
     >
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-clip-text">
-          Projects
-        </h1>
-        <div className="backdrop-blur-sm p-6 text-center rounded-lg mb-8">
+        <div className="flex items-center justify-center mb-12">
+          <div className="h-1 w-12 bg-teal-500 mr-4"></div>
+
+          <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-teal-200">
+            Projects
+          </h1>
+          <div className="h-1 w-12 bg-teal-300 ml-4"></div>
+        </div>
+
+        <div className="backdrop-blur-sm pb-6 text-center rounded-lg mb-8">
           <code>
             Explore some of my projects, each site showcasing unique challenges
             and creative solutions.
