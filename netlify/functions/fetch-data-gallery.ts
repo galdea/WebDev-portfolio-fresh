@@ -1,4 +1,4 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import { Request, Response } from 'express';
 import * as fs from 'fs/promises';
 import { google } from 'googleapis';
 import * as path from 'path';
@@ -8,18 +8,19 @@ interface File {
   name: string;
   mimeType: string;
   webContentLink?: string;
+  thumbnailLink?: string; // Add this field
 }
 
 interface Subfolder {
   id: string;
   name: string;
-  mimeType: string; // Required property
+  mimeType: string;
   files: File[];
   subfolders: Subfolder[];
 }
 
 interface DocumentsResponse {
-  documents: Folder[]; // This can hold multiple folders if needed
+  documents: Folder[];
   subfolders?: Subfolder[];
 }
 
@@ -30,7 +31,11 @@ interface Folder {
   subfolders: Subfolder[];
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+// Change to an export instead of default function
+export const handler = async (
+  req: Request,
+  res: Response<DocumentsResponse | { error: string; details?: string }>,
+) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -38,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const keyPath = path.join(process.cwd(), 'secrets.json');
     const keyFile = await fs.readFile(keyPath, 'utf-8');
-    const key = JSON.parse(keyFile);
+    const key = JSON.parse(process.env.GOOGLE_CREDENTIALS!);
 
     const auth = new google.auth.GoogleAuth({
       credentials: key,
@@ -46,26 +51,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     const drive = google.drive({ version: 'v3', auth });
+    // const folderId = '19gbsQehWmDAhDN0gqmJkGrjSyJ7ABXLh';
     const folderId = '19gbsQehWmDAhDN0gqmJkGrjSyJ7ABXLh';
     const rootFolder = await fetchFilesFromFolder(drive, folderId);
 
+    // Log the organized folder structure in the console
+    console.log(JSON.stringify(rootFolder, null, 2));
+
     res.setHeader('Cache-Control', 'no-store');
-    return res
-      .status(200)
-      .json({ documents: [], subfolders: rootFolder.subfolders });
+    res.status(200).json({
+      documents: [], // If there are documents to return, modify this accordingly
+      subfolders: rootFolder.subfolders,
+    });
   } catch (error) {
     console.error('Error in API handler:', error);
-    return res.status(500).json({
+    res.status(500).json({
       error: 'Failed to fetch data',
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
-}
+};
+
 async function fetchFilesFromFolder(
   drive: any,
   folderId: string,
 ): Promise<Subfolder> {
-  // Change return type to Subfolder
   const folderDetails = await drive.files.get({
     fileId: folderId,
     fields: 'id, name, mimeType',
@@ -74,7 +84,7 @@ async function fetchFilesFromFolder(
   const subfolder: Subfolder = {
     id: folderDetails.data.id,
     name: folderDetails.data.name || 'Unnamed Folder',
-    mimeType: folderDetails.data.mimeType, // MimeType is required for Subfolder
+    mimeType: folderDetails.data.mimeType,
     files: [],
     subfolders: [],
   };
@@ -86,17 +96,22 @@ async function fetchFilesFromFolder(
 
   for (const file of files.data.files || []) {
     if (file.mimeType === 'application/vnd.google-apps.folder') {
-      const nestedSubfolder = await fetchFilesFromFolder(drive, file.id); // Recursively fetch subfolders
+      const nestedSubfolder = await fetchFilesFromFolder(drive, file.id);
       subfolder.subfolders.push(nestedSubfolder);
     } else if (file.mimeType.startsWith('image/')) {
+      // Add both thumbnailLink and webContentLink for images
       subfolder.files.push({
         id: file.id,
         name: file.name,
         mimeType: file.mimeType,
-        webContentLink: `https://drive.google.com/thumbnail?id=${file.id}`,
+        thumbnailLink: `https://drive.google.com/thumbnail?id=${file.id}&sz=w400`,
+        webContentLink: `https://drive.google.com/uc?id=${file.id}`,
       });
     }
   }
 
-  return subfolder; // Always return a Subfolder object
+  return subfolder;
 }
+
+// Export default for compatibility
+export default handler;
