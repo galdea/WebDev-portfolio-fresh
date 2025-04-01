@@ -43,7 +43,7 @@ export const handler = async (
   try {
     const keyPath = path.join(process.cwd(), 'secrets.json');
     const keyFile = await fs.readFile(keyPath, 'utf-8');
-    const key = JSON.parse(keyFile);
+    const key = JSON.parse(process.env.GOOGLE_CREDENTIALS!);
 
     const auth = new google.auth.GoogleAuth({
       credentials: key,
