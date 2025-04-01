@@ -1,24 +1,16 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  assetsInclude: ['**/*.webm'],
-  build: {
-    rollupOptions: {
-      output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.endsWith('.webm')) {
-            return 'assets/[name][extname]';
-          }
-          return 'assets/[name]-[hash][extname]';
-        },
+  plugins: [react()],
+  server: {
+    port: 5175, // Match your current port
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // Point to your Express server
+        changeOrigin: true,
+        secure: false,
       },
     },
-  },
-  publicDir: 'public', // Ensure static assets are served from the public directory
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
   },
 });

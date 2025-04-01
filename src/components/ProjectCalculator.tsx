@@ -1,7 +1,7 @@
 import emailjs from '@emailjs/browser';
 import { jsPDF } from 'jspdf';
 import { ChevronLeft, ChevronRight, Download, Send } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
 const SERVICE_ID = 'service_f2eyn5j';
 const TEMPLATE_ID = 'template_d9gl81s';
@@ -162,7 +162,7 @@ const ProjectCalculator = () => {
     };
   };
 
-  const handleSubmitQuote = async (e) => {
+  const handleSubmitQuote = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -185,7 +185,7 @@ const ProjectCalculator = () => {
         scale: summary.scale,
         design: summary.design,
         timeline: summary.timeline,
-        total: `${summary.totalCost.toLocaleString()}`,
+        total: `$${summary.totalCost.toLocaleString()}`,
         pdf_content: pdfBase64,
         pdf_name: 'project-quote.pdf',
       };
@@ -593,17 +593,17 @@ const ProjectCalculator = () => {
           <div className="space-y-4">
             {[
               {
-                value: 'Small',
+                value: 'small',
                 label: 'Small (<100 users)',
                 modifier: 'Base pricing',
               },
               {
-                value: 'Medium',
+                value: 'medium',
                 label: 'Medium (100-1,000 users)',
                 modifier: '+15%',
               },
               {
-                value: 'Large',
+                value: 'large',
                 label: 'Large (1,000-5,000 users)',
                 modifier: '+30%',
               },
@@ -826,14 +826,14 @@ const ProjectCalculator = () => {
               <input
                 type="hidden"
                 name="total_cost"
-                value={` $${summary.totalCost.toLocaleString()}`}
+                value={`$${summary.totalCost.toLocaleString()}`}
               />
 
               <div className="flex gap-4">
                 <button
                   type="button"
                   onClick={downloadPDF}
-                  className="flex-1 flex items-center justify-centerrounded-lg text-[#ffffff] hover:text-[#64ffda] hover:border-[#64ffda] transition-all btn-sm"
+                  className="flex-1 flex items-center justify-center rounded-lg text-[#ffffff] hover:text-[#64ffda] hover:border-[#64ffda] transition-all btn-sm"
                 >
                   <Download className="mr-2" />
                   Download PDF
