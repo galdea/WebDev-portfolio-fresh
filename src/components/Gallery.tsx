@@ -39,9 +39,7 @@ export function Gallery() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(
-          'https://netlify.app/api/fetch-data-gallery',
-        );
+        const response = await fetch('/api/fetch-data-gallery');
         if (!response.ok) throw new Error('Network error: ' + response.status);
         const data = await response.json();
         if (!data.subfolders || !Array.isArray(data.subfolders))
