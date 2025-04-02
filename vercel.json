@@ -2,18 +2,12 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/api/fetch-data-gallery",
-      "destination": "/src/api/fetch-data-gallery.ts"
+      "source": "/api/(.*)",
+      "destination": "/api/fetch-data-gallery.ts"
     },
     {
       "source": "/:path*",
       "destination": "/index.html"
-    }
-  ],
-  "builds": [
-    {
-      "src": "src/api/**/*.ts",
-      "use": "@vercel/node"
     }
   ]
 }
