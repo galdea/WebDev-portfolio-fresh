@@ -14,21 +14,59 @@ interface File {
 interface Subfolder {
   id: string;
   name: string;
-  mimeType: string; // Required property
+  mimeType: string;
   files: File[];
   subfolders: Subfolder[];
 }
 
-interface Folder {
-  id: string;
-  name: string;
-  files: File[];
-  subfolders: Subfolder[];
+async function fetchFilesFromFolder(
+  drive: any,
+  folderId: string,
+): Promise<Subfolder> {
+  const folderDetails = await drive.files.get({
+    fileId: folderId,
+    fields: 'id, name, mimeType',
+  });
+
+  const subfolder: Subfolder = {
+    id: folderDetails.data.id,
+    name: folderDetails.data.name || 'Unnamed Folder',
+    mimeType: folderDetails.data.mimeType,
+    files: [],
+    subfolders: [],
+  };
+
+  const files = await drive.files.list({
+    q: `'${folderId}' in parents and trashed = false`,
+    fields: 'files(id, name, mimeType)',
+  });
+
+  for (const file of files.data.files || []) {
+    if (file.mimeType === 'application/vnd.google-apps.folder') {
+      const nestedSubfolder = await fetchFilesFromFolder(drive, file.id);
+      subfolder.subfolders.push(nestedSubfolder);
+    } else if (file.mimeType.startsWith('image/')) {
+      subfolder.files.push({
+        id: file.id,
+        name: file.name,
+        mimeType: file.mimeType,
+        webContentLink: `https://drive.google.com/thumbnail?id=${file.id}`,
+      });
+    }
+  }
+
+  return subfolder;
 }
 
+// Initialize the Express app
 const app = express();
+app.use(express.json());
 
-app.get('/documents', async (req: Request, res: Response) => {
+// Define the async handler
+const fetchDataGalleryHandler = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const keyPath = path.join(process.cwd(), 'secrets.json');
     const keyFile = await fs.readFile(keyPath, 'utf-8');
@@ -44,58 +82,25 @@ app.get('/documents', async (req: Request, res: Response) => {
     const rootFolder = await fetchFilesFromFolder(drive, folderId);
 
     res.setHeader('Cache-Control', 'no-store');
-    return res
-      .status(200)
-      .json({ documents: [], subfolders: rootFolder.subfolders });
+    res.status(200).json({ subfolders: rootFolder.subfolders });
   } catch (error) {
     console.error('Error in API handler:', error);
-    return res.status(500).json({
+    res.status(500).json({
       error: 'Failed to fetch data',
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
+};
+
+// Wrap async handler properly to ensure Express works
+app.get('/api/fetch-data-gallery', (req: Request, res: Response) => {
+  return fetchDataGalleryHandler(req, res).catch((err) => {
+    console.error('Unexpected error:', err);
+    res.status(500).send('Unexpected server error');
+  });
 });
 
-async function fetchFilesFromFolder(
-  drive: any,
-  folderId: string,
-): Promise<Subfolder> {
-  // Change return type to Subfolder
-  const folderDetails = await drive.files.get({
-    fileId: folderId,
-    fields: 'id, name, mimeType',
-  });
-
-  const subfolder: Subfolder = {
-    id: folderDetails.data.id,
-    name: folderDetails.data.name || 'Unnamed Folder',
-    mimeType: folderDetails.data.mimeType, // MimeType is required for Subfolder
-    files: [],
-    subfolders: [],
-  };
-
-  const files = await drive.files.list({
-    q: `'${folderId}' in parents and trashed = false`,
-    fields: 'files(id, name, mimeType)',
-  });
-
-  for (const file of files.data.files || []) {
-    if (file.mimeType === 'application/vnd.google-apps.folder') {
-      const nestedSubfolder = await fetchFilesFromFolder(drive, file.id); // Recursively fetch subfolders
-      subfolder.subfolders.push(nestedSubfolder);
-    } else if (file.mimeType.startsWith('image/')) {
-      subfolder.files.push({
-        id: file.id,
-        name: file.name,
-        mimeType: file.mimeType,
-        webContentLink: `https://drive.google.com/thumbnail?id=${file.id}`,
-      });
-    }
-  }
-
-  return subfolder; // Always return a Subfolder object
-}
-
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
