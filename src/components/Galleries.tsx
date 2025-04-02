@@ -75,7 +75,7 @@ const Galleries = () => {
           <div className="flex items-center justify-center mb-12">
             <div className="h-1 w-12 bg-teal-500 mr-4"></div>
             <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-teal-200">
-              Creative Portfolio
+              Creative Galleries
             </h1>
             <div className="h-1 w-12 bg-teal-200 ml-4"></div>
           </div>

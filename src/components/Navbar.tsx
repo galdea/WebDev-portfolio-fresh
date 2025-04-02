@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaGithub, FaInstagram } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '../components/ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,13 +22,22 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Smooth scroll function
+  // Smooth scroll function with routing support
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     targetId: string,
+    targetRoute: string,
   ) => {
     e.preventDefault();
 
+    // Navigate to the route (if it's different from the current route)
+    if (targetRoute !== window.location.pathname) {
+      navigate(targetRoute);
+      setIsOpen(false); // Close the mobile menu after navigation
+      return;
+    }
+
+    // Handle scroll within the same page
     const targetSection = document.querySelector(targetId);
     if (targetSection) {
       targetSection.scrollIntoView({
@@ -41,12 +52,12 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { href: '#home', label: t('nav.home') },
-    { href: '#about', label: t('nav.about') },
-    { href: '#skills', label: t('nav.skills') },
-    { href: '#projects', label: t('nav.projects') },
-    { href: '#galleries', label: t('nav.galleries') },
-    { href: '#contact', label: t('nav.contact') },
+    { href: '#home', label: t('nav.home'), route: '/' },
+    { href: '#about', label: t('nav.about'), route: '/' },
+    { href: '#skills', label: t('nav.skills'), route: '/' },
+    { href: '#projects', label: t('nav.projects'), route: '/' },
+    { href: '#galleries', label: t('Gallery'), route: '/' },
+    { href: '#contact', label: t('nav.contact'), route: '/' },
   ];
 
   return (
@@ -64,11 +75,11 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className="nav-link text-[#f1f5f9]"
-                onClick={(e) => handleNavClick(e, link.href)}
+                onClick={(e) => handleNavClick(e, link.href, link.route)}
               >
                 {link.label}
               </a>
-            ))}{' '}
+            ))}
             <a
               href="https://www.instagram.com/gab_aldea"
               target="_blank"
@@ -117,7 +128,7 @@ const Navbar = () => {
                     key={link.href}
                     href={link.href}
                     className="px-4 py-3 transition-colors text-[#f1f5f9] hover:text-[#65fbda] "
-                    onClick={(e) => handleNavClick(e, link.href)}
+                    onClick={(e) => handleNavClick(e, link.href, link.route)}
                   >
                     {link.label}
                   </a>
