@@ -16,5 +16,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/pages", "server.js", "pages/api"]
+  "include": ["src", "src/pages", "server.js", "pages/api", "pages/api"]
 }

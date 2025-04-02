@@ -40,12 +40,17 @@ export function Gallery() {
     async function fetchData() {
       try {
         const response = await fetch('/api/fetch-data-gallery');
-        if (!response.ok) throw new Error('Network error: ' + response.status);
+        console.log('Response status:', response.status);
+
+        if (!response.ok) throw new Error(`Network error: ${response.status}`);
+
+        // Only read the response once
         const data = await response.json();
+        console.log('Fetched data:', data);
+
         if (!data.subfolders || !Array.isArray(data.subfolders))
           throw new Error('Invalid data format');
 
-        // Process subfolders and images
         const processedSubfolders = data.subfolders.map((subfolder: any) => ({
           ...subfolder,
           files: (subfolder.files || []).map((image: Image) => ({
@@ -59,7 +64,6 @@ export function Gallery() {
 
         setSubfolders(processedSubfolders);
 
-        // If there are subfolders, select the first one by default
         if (processedSubfolders.length > 0) {
           setSelectedSubfolder(processedSubfolders[0]);
           setImages(processedSubfolders[0].files || []);

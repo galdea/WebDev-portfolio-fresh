@@ -1,49 +1,21 @@
-import { Request, Response } from 'express';
-import * as fs from 'fs/promises';
-import { google } from 'googleapis';
-import * as path from 'path';
+// server.js
+const express = require('express');
+const path = require('path');
+const fs = require('fs').promises;
+const { google } = require('googleapis');
 
-interface File {
-  id: string;
-  name: string;
-  mimeType: string;
-  webContentLink?: string;
-  thumbnailLink?: string; // Add this field
-}
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-interface Subfolder {
-  id: string;
-  name: string;
-  mimeType: string;
-  files: File[];
-  subfolders: Subfolder[];
-}
+// Serve static files from Vite build
+app.use(express.static(path.join(__dirname, 'dist')));
 
-interface DocumentsResponse {
-  documents: Folder[];
-  subfolders?: Subfolder[];
-}
-
-interface Folder {
-  id: string;
-  name: string;
-  files: File[];
-  subfolders: Subfolder[];
-}
-
-// Change to an export instead of default function
-export const handler = async (
-  req: Request,
-  res: Response<DocumentsResponse | { error: string; details?: string }>,
-) => {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
+// API endpoint for gallery data
+app.get('/api/fetch-data-gallery', async (req, res) => {
   try {
-    const keyPath = path.join(process.cwd(), 'secrets.json');
+    const keyPath = path.join(__dirname, 'secrets.json');
     const keyFile = await fs.readFile(keyPath, 'utf-8');
-    const key = JSON.parse(process.env.GOOGLE_CREDENTIALS!);
+    const key = JSON.parse(keyFile);
 
     const auth = new google.auth.GoogleAuth({
       credentials: key,
@@ -51,16 +23,12 @@ export const handler = async (
     });
 
     const drive = google.drive({ version: 'v3', auth });
-    // const folderId = '19gbsQehWmDAhDN0gqmJkGrjSyJ7ABXLh';
     const folderId = '19gbsQehWmDAhDN0gqmJkGrjSyJ7ABXLh';
     const rootFolder = await fetchFilesFromFolder(drive, folderId);
 
-    // Log the organized folder structure in the console
-    console.log(JSON.stringify(rootFolder, null, 2));
-
     res.setHeader('Cache-Control', 'no-store');
     res.status(200).json({
-      documents: [], // If there are documents to return, modify this accordingly
+      documents: [],
       subfolders: rootFolder.subfolders,
     });
   } catch (error) {
@@ -70,18 +38,15 @@ export const handler = async (
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
-};
+});
 
-async function fetchFilesFromFolder(
-  drive: any,
-  folderId: string,
-): Promise<Subfolder> {
+async function fetchFilesFromFolder(drive, folderId) {
   const folderDetails = await drive.files.get({
     fileId: folderId,
     fields: 'id, name, mimeType',
   });
 
-  const subfolder: Subfolder = {
+  const subfolder = {
     id: folderDetails.data.id,
     name: folderDetails.data.name || 'Unnamed Folder',
     mimeType: folderDetails.data.mimeType,
@@ -99,7 +64,6 @@ async function fetchFilesFromFolder(
       const nestedSubfolder = await fetchFilesFromFolder(drive, file.id);
       subfolder.subfolders.push(nestedSubfolder);
     } else if (file.mimeType.startsWith('image/')) {
-      // Add both thumbnailLink and webContentLink for images
       subfolder.files.push({
         id: file.id,
         name: file.name,
@@ -113,5 +77,11 @@ async function fetchFilesFromFolder(
   return subfolder;
 }
 
-// Export default for compatibility
-export default handler;
+// For any other routes, serve the Vite app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

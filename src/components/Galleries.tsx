@@ -71,7 +71,7 @@ const Galleries = () => {
   return (
     <section id="galleries">
       <div className="min-h-screen w-full flex flex-col justify-center items-center py-16 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="max-w-6xl w-full px-4">
+        <div className="max-w-8xl w-full px-12">
           <div className="flex items-center justify-center mb-12">
             <div className="h-1 w-12 bg-teal-500 mr-4"></div>
             <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-teal-200">

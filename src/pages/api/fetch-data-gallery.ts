@@ -1,4 +1,5 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import * as express from 'express';
+import { Request, Response } from 'express';
 import * as fs from 'fs/promises';
 import { google } from 'googleapis';
 import * as path from 'path';
@@ -18,11 +19,6 @@ interface Subfolder {
   subfolders: Subfolder[];
 }
 
-interface DocumentsResponse {
-  documents: Folder[]; // This can hold multiple folders if needed
-  subfolders?: Subfolder[];
-}
-
 interface Folder {
   id: string;
   name: string;
@@ -30,11 +26,9 @@ interface Folder {
   subfolders: Subfolder[];
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+const app = express();
 
+app.get('/documents', async (req: Request, res: Response) => {
   try {
     const keyPath = path.join(process.cwd(), 'secrets.json');
     const keyFile = await fs.readFile(keyPath, 'utf-8');
@@ -60,7 +54,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
-}
+});
+
 async function fetchFilesFromFolder(
   drive: any,
   folderId: string,
@@ -100,3 +95,8 @@ async function fetchFilesFromFolder(
 
   return subfolder; // Always return a Subfolder object
 }
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
