@@ -1,3 +1,4 @@
+import * as cors from 'cors';
 import * as express from 'express';
 import { Request, Response } from 'express';
 import * as fs from 'fs/promises';
@@ -35,6 +36,10 @@ async function fetchFilesFromFolder(
     files: [],
     subfolders: [],
   };
+
+  const app = express();
+  app.use(express.json());
+  app.use(cors());
 
   const files = await drive.files.list({
     q: `'${folderId}' in parents and trashed = false`,
