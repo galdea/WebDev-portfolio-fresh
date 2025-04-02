@@ -170,7 +170,7 @@ const Projects = () => {
 
     typeText();
   }, []);
-
+  // h
   return (
     <section
       id="projects"
