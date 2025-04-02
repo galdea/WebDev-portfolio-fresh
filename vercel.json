@@ -8,7 +8,7 @@
     },
     {
       "source": "/api/(.*)",
-      "destination": "/server.cjs"
+      "destination": "/index.ts"
     }
   ]
 }
