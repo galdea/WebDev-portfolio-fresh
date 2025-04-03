@@ -9,5 +9,11 @@
       "source": "/:path*",
       "destination": "/index.html"
     }
+  ],
+  "headers": [
+    {
+      "source": "/videos/:path*",
+      "headers": [{ "key": "Content-Type", "value": "video/webm" }]
+    }
   ]
 }
