@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #1a1a1a;
+    --card: #f8fafc;
+    --card-foreground: #1a1a1a;
+    --popover: #ffffff;
+    --popover-foreground: #1a1a1a;
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    --secondary: #64748b;
+    --secondary-foreground: #1a1a1a;
+    --muted: #f1f5f9;
+    --muted-foreground: #475569;
+    --accent: #2563eb;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #2563eb;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: #121f34;
+    --foreground: #e6f1ff;
+    --card: #08111e;
+    --card-foreground: #e6f1ff;
+    --popover: #08111e;
+    --popover-foreground: #e6f1ff;
+    --primary: #64ffda;
+    --primary-foreground: #121f34;
+    --secondary: #8892af;
+    --secondary-foreground: #e6f1ff;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: #64ffda;
+    --accent-foreground: #121f34;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #64ffda;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-space-grotesk;
+  }
+
+  code {
+    @apply font-fira;
+  }
+} */
+
+  @layer components {
+    .nav-link {
+      @apply relative px-4 py-2 text-foreground hover:text-primary transition-colors duration-300;
+    }
+
+    .nav-link::after {
+      content: '';
+      @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300;
+    }
+
+    .nav-link:hover::after {
+      @apply w-full;
+    }
+
+    .btn-primary {
+      @apply px-6 py-3 bg-transparent border-2 border-primary text-primary rounded-lg
+           hover:bg-primary/10 transition-all duration-300 font-medium;
+    }
+
+    .section-heading {
+      @apply text-3xl md:text-4xl font-bold text-foreground mb-8 flex items-center gap-4;
+    }
+
+    .section-heading::after {
+      content: '';
+      @apply h-px bg-foreground/20 flex-grow;
+    }
+  }
+
+  .cursor-glow {
+    @apply fixed pointer-events-none w-8 h-8 bg-primary/20 rounded-full
+         transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 z-50;
+  }
+
+  @layer utilities {
+    .from-bg-dark {
+      background-color: #08111e;
+    }
+  }
+}
