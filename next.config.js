@@ -4,6 +4,14 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: { unoptimized: true },
+  async rewrites() {
+    return [
+      {
+        source: '/hipatia-extension-privacy.html',
+        destination: '/hipatia-extension-privacy',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
