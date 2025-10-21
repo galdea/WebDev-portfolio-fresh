@@ -9,8 +9,8 @@ export default function HipatiaExtensionPrivacyPage() {
             </h1>
             <div className="w-24 h-1 bg-primary mx-auto rounded-full mb-6"></div>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Hipatia Kindle Extension respects your privacy. This policy
-              explains how we collect, use, and protect your information.
+              <em>Hipatia Kindle Extension</em> respects your privacy. This
+              policy explains how we collect, use, and protect your information.
             </p>
           </div>
 
