@@ -16,7 +16,7 @@ interface Subfolder {
   subfolders: Subfolder[];
 }
 
-const FOLDER_ID = '1Nk7OGQTwOXBhq5fgjcvDrzSVcg8vY5xt';
+const FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID_CARPENTRY;
 
 async function fetchFilesFromFolder(
   drive: any,
@@ -43,15 +43,8 @@ async function fetchFilesFromFolder(
       fields: 'files(id, name, mimeType)',
     });
 
-    console.log(
-      `Found ${files.data.files?.length || 0} files in folder ${
-        folderDetails.data.name
-      }`,
-    );
-
     for (const file of files.data.files || []) {
       if (file.mimeType === 'application/vnd.google-apps.folder') {
-        console.log('Processing subfolder:', file.name);
         const nestedSubfolder = await fetchFilesFromFolder(drive, file.id);
         subfolder.subfolders.push(nestedSubfolder);
       } else if (file.mimeType.startsWith('image/')) {
@@ -74,40 +67,60 @@ async function fetchFilesFromFolder(
 export async function GET() {
   try {
     console.log('Starting API request...');
+    console.log('Environment variables check:', {
+      hasEmail: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      hasKey: !!process.env.GOOGLE_PRIVATE_KEY,
+      hasFolderId: !!FOLDER_ID,
+      folderId: FOLDER_ID,
+    });
 
-    // Check environment variables
     if (
       !process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ||
       !process.env.GOOGLE_PRIVATE_KEY
     ) {
       console.error('Missing required environment variables');
       return NextResponse.json(
-        {
-          error: 'Configuration error',
-          details: 'Missing Google API credentials',
-        },
+        { error: 'Missing Google API credentials' },
         { status: 500 },
       );
     }
+
+    // Format the private key properly
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY.replace(
+      /\\n/g,
+      '\n',
+    ).replace(/"/g, '');
 
     console.log('Initializing Google Auth...');
     const auth = new google.auth.GoogleAuth({
       credentials: {
         client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+        private_key: privateKey,
       },
-      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      scopes: ['https://www.googleapis.com/auth/drive.metadata.readonly'],
     });
 
     console.log('Creating Drive client...');
     const drive = google.drive({ version: 'v3', auth });
 
-    console.log('Fetching root folder...');
-    const rootFolder = await fetchFilesFromFolder(drive, FOLDER_ID);
+    console.log('Fetching folder details...');
+    const folderDetails = await drive.files.get({
+      fileId: FOLDER_ID,
+      fields: 'id, name, mimeType',
+    });
+
+    console.log('Fetching files...');
+    const files = await drive.files.list({
+      q: `'${FOLDER_ID}' in parents and trashed = false`,
+      fields: 'files(id, name, mimeType)',
+    });
 
     console.log('Successfully fetched data, returning response...');
     return NextResponse.json(
-      { subfolders: rootFolder.subfolders },
+      {
+        folder: folderDetails.data,
+        files: files.data.files || [],
+      },
       {
         headers: {
           'Cache-Control': 'no-store',

@@ -7,21 +7,23 @@ import { useTranslation } from 'react-i18next';
 import ProjectCalculator from './ProjectCalculator';
 
 const Skills = () => {
-  const [text, setText] = useState('');
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const { t } = useTranslation();
+
+  const [text, setText] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const popupRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0); // Added missing state for direction
+  const [direction, setDirection] = useState(0); // optional, not used currently
 
-  const slides = Array(5).fill(null); // Placeholder for slides array
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const popupRef = useRef(null);
+
+  const slides = Array(5).fill(null); // Placeholder array for future use
 
   const codeSnippet = `const skills =\n\n  languages: ['JavaScript', 'Python', 'TypeScript'];\n  frameworks: ['ReactJS', 'NextJS', 'Flask', 'Vite'];\n  databases: ['PostgreSQL', 'MongoDB', 'SQLAlchemy'];\n  styling: ['Bootstrap', 'SemanticUI', 'TailwindCSS'];\n  emerging: ['AI Integration'];\n  tools: ['Git', 'CodeSpace', 'Postman','VSCode']; \n  methodologies: ['Scrum', 'Kanban', 'Agile']; \n  deployment:  ['Vercel', 'Netlify', 'Supabase', 'Heroku']; \n  and: Much, much more...;`;
 
-  // Check if device is mobile
+  // Detect if device is mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -32,26 +34,26 @@ const Skills = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Handle background video playback logic
   useEffect(() => {
-    if (!videoRef.current) return;
-
     const video = videoRef.current;
+    if (!video) return;
+
     video.muted = true;
     video.playsInline = true;
 
-    // Detect if the user is on iOS
     const isIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
 
     if (isMobile) {
-      // Mobile: Play one looping video
+      // Mobile: Loop one video
       video.src = isIOS ? '/images/skills6.mp4' : '/images/skills6.webm';
       video.loop = true;
       video.load();
       video.play().catch((err) => console.error('Video play error:', err));
     } else {
-      // Desktop: Cycle through videos
-      video.loop = false; // Ensure loop is disabled for sequential playback
+      // Desktop: Cycle through video files
+      video.loop = false;
       video.src = isIOS
         ? `/images/skills${currentVideoIndex}.mp4`
         : `/images/skills${currentVideoIndex}.webm`;
@@ -61,9 +63,7 @@ const Skills = () => {
       const handleEnded = () => {
         const nextVideoIndex = (currentVideoIndex % 14) + 1;
 
-        // Replay current video while the next video is loading
-        video.play().catch((err) => console.error('Video replay error:', err));
-
+        // Load next video in advance
         const tempVideo = document.createElement('video');
         tempVideo.src = isIOS
           ? `/images/skills${nextVideoIndex}.mp4`
@@ -83,10 +83,17 @@ const Skills = () => {
     }
   }, [isMobile, currentVideoIndex]);
 
+  // Typewriter animation
   // Typewriter effect
   useEffect(() => {
     const section = document.getElementById('skills');
     if (!section) return;
+
+    if (isMobile) {
+      // On mobile, show full text immediately
+      setText(codeSnippet);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -112,8 +119,9 @@ const Skills = () => {
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, []);
+  }, [isMobile]);
 
+  // Close popup if clicked outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -126,8 +134,6 @@ const Skills = () => {
 
     if (isPopupOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
@@ -140,6 +146,7 @@ const Skills = () => {
       id="skills"
       className="min-h-screen flex items-center relative overflow-hidden pt-12"
     >
+      {/* Background Video */}
       <motion.video
         initial={{ opacity: 0.7 }}
         animate={{ opacity: 0.7 }}
@@ -151,7 +158,6 @@ const Skills = () => {
       />
 
       <div className="relative z-20 container mx-auto px-4">
-        {/* Code snippet */}
         <div
           className="bg-black/50 mb-4 rounded"
           style={{ minHeight: '420px' }}
@@ -160,32 +166,31 @@ const Skills = () => {
             {text}
           </pre>
 
-          {/* Project Quote Calculator button */}
+          {/* Quote Calculator CTA */}
           <div className="flex justify-center pt-12 mb-20 pb-4">
-            <div className="flex justify-center item-center pt-3 pr-4">
+            <div className="flex justify-center items-center pt-3 pr-4">
               <Calculator size={28} />
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsPopupOpen(true)}
-              className="flex flex-col sm:flex-row gap-4 justify-center btn-primary over:scale-110 text-center bg-black/10 border-[#64ffda] text-[#64ffda]"
+              className="flex flex-col sm:flex-row gap-4 justify-center btn-primary hover:scale-110 text-center bg-black/10 border-[#64ffda] text-[#64ffda]"
             >
               <code>Project Quote Calculator</code>
             </motion.button>
-            <div className="flex justify-center item-center pt-3 pl-4">
+            <div className="flex justify-center items-center pt-3 pl-4">
               <Calculator size={28} />
             </div>
           </div>
         </div>
       </div>
 
+      {/* Calculator Popup */}
       {isPopupOpen && (
         <>
-          {/* Background overlay */}
-          <div className="fixed inset-0 bg-black/60 z-40 "></div>
+          <div className="fixed inset-0 bg-black/60 z-40" />
 
-          {/* Background overlay */}
           <div className="fixed flex items-center justify-center z-50 inset-0 p-4">
             <button
               className="absolute top-4 right-4 text-gray-300 hover:text-gray-200 z-50 text-lg md:text-xl lg:text-2xl"
@@ -193,18 +198,21 @@ const Skills = () => {
             >
               ✕
             </button>
+
             <motion.div
               ref={popupRef}
               initial={{ scale: 0.3, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className=" shadow-lg max-w-lg w-full relative bg-white/20 rounded-lg"
+              className="shadow-lg max-w-lg w-full relative bg-white/20 rounded-lg"
             >
               <ProjectCalculator />
             </motion.div>
           </div>
         </>
       )}
+
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ y: -10 }}
         animate={{ y: 10 }}

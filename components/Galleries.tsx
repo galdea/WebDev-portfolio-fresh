@@ -110,6 +110,7 @@ const Galleries = ({ children }: GalleriesProps) => {
                       className="w-full h-full object-cover"
                       loop
                       muted
+                      autoPlay
                       playsInline
                     >
                       <source src={`${item.videoSrc}.webm`} type="video/webm" />
@@ -132,7 +133,7 @@ const Galleries = ({ children }: GalleriesProps) => {
 
                   <div className="p-5">
                     <div className="flex items-center mb-3">
-                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 mr-3">
+                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-teal-400 dark:bg-teal-600 mr-3">
                         {item.icon}
                       </div>
                       <h3 className="text-xl font-bold">{item.title}</h3>
@@ -140,7 +141,7 @@ const Galleries = ({ children }: GalleriesProps) => {
                     <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                       {item.description}
                     </p>
-                    <div className="flex items-center text-blue-500 font-medium text-sm">
+                    <div className="flex items-center text-teal-500  font-medium text-sm">
                       View Gallery <ChevronRight size={16} className="ml-1" />
                     </div>
                   </div>

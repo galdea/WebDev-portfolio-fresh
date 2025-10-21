@@ -15,7 +15,7 @@ const Projects = () => {
       title: 'Austral Escapes',
       description:
         'Website created for a Patagonian tour agency, targeting American and Canadian travelers, offering curated tour packages. Blog section features travel tips and local insights. Tour packages are managed through a custom e-commerce solution.',
-      websiteUrl: 'https://australescapes.com',
+      websiteUrl: 'https://australescapes.squarespace.com',
       tags: [
         'Squarespace',
         'CSS',

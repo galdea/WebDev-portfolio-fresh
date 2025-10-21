@@ -23,11 +23,9 @@ const About = () => {
   };
 
   useEffect(() => {
-    // Detect if the user is on iOS
     const isIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
 
-    // Set the initial video format based on the platform
     setCurrentVideo(isIOS ? '/images/About.mp4' : '/images/About.webm');
 
     const cycleVideos = () => {
@@ -69,31 +67,37 @@ const About = () => {
     const section = document.getElementById('about');
     if (!section) return;
 
+    const isLargeScreen = window.innerWidth >= 1024; // Tailwind's lg breakpoint
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          let currentText = '';
-          let currentIndex = 0;
+          if (isLargeScreen) {
+            let currentText = '';
+            let currentIndex = 0;
 
-          const typeText = () => {
-            if (currentIndex < codeSnippet.length) {
-              currentText += codeSnippet[currentIndex];
-              setText(currentText);
-              currentIndex++;
-              setTimeout(typeText, 20);
-            }
-          };
+            const typeText = () => {
+              if (currentIndex < codeSnippet.length) {
+                currentText += codeSnippet[currentIndex];
+                setText(currentText);
+                currentIndex++;
+                setTimeout(typeText, 20);
+              }
+            };
 
-          typeText();
-          observer.disconnect(); // Stop observing once the effect starts
+            typeText();
+          } else {
+            setText(codeSnippet); // On mobile, just render full text
+          }
+          observer.disconnect();
         }
       },
-      { threshold: 0.5 }, // Trigger when 50% of the section is visible
+      { threshold: 0.5 },
     );
 
     observer.observe(section);
 
-    return () => observer.disconnect(); // Cleanup observer on unmount
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -117,7 +121,6 @@ const About = () => {
                 <span className="text-white">Experiences</span>
               </h1>
               <motion.div className="w-full">
-                {/* Fixed-height container based on the final text size */}
                 <div
                   className="bg-bg-light/50 backdrop-blur-sm p-6 rounded-lg mb-8 font-fira"
                   style={{ minHeight: '320px' }}
@@ -125,11 +128,10 @@ const About = () => {
                   <pre className="text-text-secondary whitespace-pre-wrap">
                     <code>{text}</code>
                   </pre>
-                  {/* Invisible element with the full text to reserve space */}
                   <pre className="text-text-secondary whitespace-pre-wrap absolute opacity-0 pointer-events-none">
                     <code>{codeSnippet}</code>
                   </pre>
-                </div>{' '}
+                </div>
               </motion.div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -137,13 +139,12 @@ const About = () => {
                   href="#skills"
                   className="btn-primary hover:scale-110 text-center "
                 >
-                  <code>{t('hero.viewWork')}</code>
+                  <code>{t('Skills')}</code>
                 </a>
               </div>
             </motion.div>
           </div>
 
-          {/* Current video */}
           <div className="w-full lg:w-3/5 flex justify-center items-center lg:px-4">
             <div className="w-full max-w-full lg:max-w-none px-4 lg:px-8">
               <div className="relative">

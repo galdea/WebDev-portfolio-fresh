@@ -5,9 +5,9 @@ export async function GET() {
   try {
     console.log('Starting gallery API request...');
 
-    if (!process.env.GOOGLE_DRIVE_FOLDER_ID_PHOTOGRAPHY) {
+    if (!process.env.GOOGLE_DRIVE_FOLDER_ID_GENERATIVEAI) {
       console.error(
-        'Missing GOOGLE_DRIVE_FOLDER_ID_PHOTOGRAPHY environment variable',
+        'Missing GOOGLE_DRIVE_FOLDER_ID_GENERATIVEAI environment variable',
       );
       return NextResponse.json(
         { error: 'Missing folder ID configuration' },
@@ -38,7 +38,7 @@ export async function GET() {
     });
 
     const drive = google.drive({ version: 'v3', auth });
-    const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID_PHOTOGRAPHY;
+    const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID_GENERATIVEAI;
 
     console.log('Fetching folder details for ID:', folderId);
     const folderDetails = await drive.files.get({

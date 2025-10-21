@@ -55,12 +55,12 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { href: '#home', label: t('nav.home'), route: '/' },
-    { href: '#about', label: t('nav.about'), route: '/' },
-    { href: '#skills', label: t('nav.skills'), route: '/' },
-    { href: '#projects', label: t('nav.projects'), route: '/' },
+    { href: '#home', label: t('Home'), route: '/' },
+    { href: '#about', label: t('About'), route: '/' },
+    { href: '#skills', label: t('Skills'), route: '/' },
+    { href: '#projects', label: t('Projects'), route: '/' },
     { href: '#galleries', label: t('Gallery'), route: '/' },
-    { href: '#contact', label: t('nav.contact'), route: '/' },
+    { href: '#contact', label: t('Contact'), route: '/' },
   ];
 
   return (
